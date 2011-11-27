@@ -1,0 +1,5 @@
+*.iml
+/.idea
+/modules/web/target
+/modules/generic/target
+/modules/backend/target
