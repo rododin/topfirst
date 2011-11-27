@@ -1,0 +1,37 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+	<persistence-unit name="com.topfirst.backend.jpa">
+
+		<description>
+			Persistence unit for the TopFirst Backend Module
+		</description>
+
+		<class>com.topfirst.backend.entities.User</class>
+		<class>com.topfirst.backend.entities.Banner</class>
+
+		<!-- Lightweight In-Memory H2 DB -->
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
+			<property name="javax.persistence.jdbc.user" value="sa" />
+			<property name="javax.persistence.jdbc.password" value="" />
+
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+		</properties>
+
+		<!-- MySQL DB -->
+		<!--<properties>-->
+			<!--<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/topfirst"/>-->
+			<!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
+			<!--<property name="hibernate.connection.username" value="root"/>-->
+			<!--<property name="hibernate.connection.password" value="root"/>-->
+			<!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
+		<!--</properties>-->
+
+	</persistence-unit>
+
+</persistence>

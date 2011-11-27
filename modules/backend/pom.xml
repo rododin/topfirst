@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>topfirst</artifactId>
+		<groupId>com.topfirst</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.topfirst.backend</groupId>
+	<artifactId>backend</artifactId>
+	<packaging>jar</packaging>
+	<name>TopFirst :: Backend</name>
+
+	<properties>
+		<log.console.stream>System.out</log.console.stream>
+		<log.console.pattern>%d{yyyy.MM.dd-HH:mm:ss.SSS}: %5p - %m%n</log.console.pattern>
+	</properties>
+
+	<build>
+		<defaultGoal>install</defaultGoal>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.topfirst.generic</groupId>
+			<artifactId>generic</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>3.6.8.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>3.6.8.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.2.140</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+</project>

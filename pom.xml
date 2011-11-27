@@ -1,0 +1,156 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.topfirst</groupId>
+	<artifactId>topfirst</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>TopFirst</name>
+
+	<properties>
+	</properties>
+
+	<modules>
+		<module>modules/generic</module>
+		<module>modules/backend</module>
+		<module>modules/web</module>
+	</modules>
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<!-- Clean up after the build -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
+
+				<plugin>
+						<!-- Compiles Java sources -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.3.2</version>
+				</plugin>
+
+				<plugin>
+					<!-- Generate a site (docs) for the current project -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+
+				<plugin>
+					<!-- Copy the resources to the output directory for including in the JAR -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+
+				<plugin>
+					<!-- Build a JAR from the current project -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.3.2</version>
+				</plugin>
+
+				<plugin>
+					<!-- Build a WAR from the current project -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.1.1</version>
+				</plugin>
+
+				<plugin>
+					<!-- Install the built artifact into the local repository -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.3.1</version>
+				</plugin>
+
+				<plugin>
+					<!-- Deploy the built artifact to the remote repository -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>2.7</version>
+				</plugin>
+
+				<plugin>
+					<!-- Dependency manipulation (copy, unpack) and analysis -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+
+				<plugin>
+					<!-- Environmental constraint checking (Maven Version, JDK etc), User Custom Rule Execution -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.0</version>
+				</plugin>
+
+				<plugin>
+					<!-- Run the JUnit unit tests in an isolated classloader -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.9</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<repositories>
+
+		<repository>
+			<id>apache.snapshots</id>
+			<name>Apache Snapshot Repository</name>
+			<url>https://repository.apache.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>jboss-releases-repository</id>
+			<name>JBoss Releases Repository</name>
+			<url>http://repository.jboss.org/maven2/org/hibernate/</url>
+		</repository>
+
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+			<!--<releases>-->
+				<!--<enabled>false</enabled>-->
+			<!--</releases>-->
+			<!--<snapshots>-->
+				<!--<enabled>true</enabled>-->
+			<!--</snapshots>-->
+		</repository>
+
+	</repositories>
+
+	<pluginRepositories>
+	</pluginRepositories>
+
+</project>

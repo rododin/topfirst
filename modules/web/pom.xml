@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>topfirst</artifactId>
+		<groupId>com.topfirst</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.topfirst.web</groupId>
+	<artifactId>web</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>TopFirst :: Web</name>
+	<url>http://www.topfirst.com</url>
+
+	<properties>
+		<jsf-myfaces.version>2.1.0</jsf-myfaces.version>
+		<jsf-primefaces.version>2.2.1</jsf-primefaces.version>
+		<!--<maven.jetty.plugin.version>7.1.42</maven.jetty.plugin.version>-->
+	</properties>
+
+	<build>
+		<finalName>${parent.artifactId}</finalName>
+	</build>
+
+	<profiles>
+	</profiles>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.topfirst.generic</groupId>
+			<artifactId>generic</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.topfirst.backend</groupId>
+			<artifactId>backend</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-api</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.myfaces.core</groupId>
+			<artifactId>myfaces-impl</artifactId>
+			<version>${jsf-myfaces.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>
