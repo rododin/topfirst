@@ -19,32 +19,32 @@
 
 			<h:form>
 
-					<p:dataGrid var="banner" value="#{bannerBean.banners}"
-							columns="4" rows="16" paginator="true" effect="true"
-							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-							rowsPerPageTemplate="16,20,24,28,32">
-						<p:column>
-							<p:panel header="#{banner.title}" style="text-align:center">
-								<h:panelGrid columns="1" style="width:100%">
-									<p:graphicImage value="#{banner.imagePath}"/>
-									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="More details...">
-										<p:graphicImage value="/resources/img/search.png"/>
-										<f:setPropertyActionListener value="#{banner}" target="#{bannerBean.selectedBanner}" />
-									</p:commandLink>
-								</h:panelGrid>
-							</p:panel>
-						</p:column>
-					</p:dataGrid>
+					<!--<p:dataGrid var="banner" value="#{bannerBean.banners}"-->
+							<!--columns="4" rows="16" paginator="true" effect="true"-->
+							<!--paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"-->
+							<!--rowsPerPageTemplate="16,20,24,28,32">-->
+						<!--<p:column>-->
+							<!--<p:panel header="#{banner.title}" style="text-align:center">-->
+								<!--<h:panelGrid columns="1" style="width:100%">-->
+									<!--<p:graphicImage value="#{banner.imagePath}"/>-->
+									<!--<h:outputText value="#{banner.intro}" />-->
+									<!--<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="More details...">-->
+										<!--<p:graphicImage value="/resources/img/search.png"/>-->
+										<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerBean.selectedBanner}" />-->
+									<!--</p:commandLink>-->
+								<!--</h:panelGrid>-->
+							<!--</p:panel>-->
+						<!--</p:column>-->
+					<!--</p:dataGrid>-->
 
-					<p:dialog header="Details on #{bannerBean.selectedBanner.title}" widgetVar="bannerDialog" width="400" height="250" modal="true">
-						<p:outputPanel id="bannerDetail" style="text-align:center;" layout="block">
-							<h:panelGrid columns="1" cellpadding="5">
-								<p:graphicImage id="bannerImage" value="#{bannerBean.selectedBanner.imagePath}"/>
-								<h:outputText id="bannerIntro" value="#{bannerBean.selectedBanner.intro}" />
-							</h:panelGrid>
-						</p:outputPanel>
-					</p:dialog>
+					<!--<p:dialog header="Details on #{bannerBean.selectedBanner.title}" widgetVar="bannerDialog" width="400" height="250" modal="true">-->
+						<!--<p:outputPanel id="bannerDetail" style="text-align:center;" layout="block">-->
+							<!--<h:panelGrid columns="1" cellpadding="5">-->
+								<!--<p:graphicImage id="bannerImage" value="#{bannerBean.selectedBanner.imagePath}"/>-->
+								<!--<h:outputText id="bannerIntro" value="#{bannerBean.selectedBanner.intro}" />-->
+							<!--</h:panelGrid>-->
+						<!--</p:outputPanel>-->
+					<!--</p:dialog>-->
 
 			</h:form>
 
