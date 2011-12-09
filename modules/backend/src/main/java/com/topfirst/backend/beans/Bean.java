@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface Bean <Entity>
 {
-	Entity create();
-	Entity save(Entity entity);
-	void delete(Entity entity);
-
-	List<Entity> get(Object... criteria);
+	//Entity create();
+	//Entity save(Entity entity);
+	//void delete(Entity entity);
+	//
+	//List<Entity> get(Object... criteria);
 }

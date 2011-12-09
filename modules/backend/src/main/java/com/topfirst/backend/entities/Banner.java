@@ -5,6 +5,7 @@
 package com.topfirst.backend.entities;
 
 import java.io.Serializable;
+import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -107,6 +108,27 @@ public class Banner
 		this.user = user;
 	}
 
+	@Column(name="rank")
+	public long getRank()
+	{
+		return rank.get();
+	}
+
+	public void setRank(long rank)
+	{
+		this.rank.set(rank);
+	}
+
+	public long incrementRank()
+	{
+		return rank.incrementAndGet();
+	}
+
+	public long updateRankBy(long updateValue)
+	{
+		return rank.addAndGet(updateValue);
+	}
+
 // Attributes ----------------------------------------------------------------------------------------------------------
 
 	private static final long serialVersionUID = 6773056427224320511L;
@@ -117,4 +139,5 @@ public class Banner
 	private String comments;
 	private String imagePath;
 	private User user;
+	private AtomicLong rank = new AtomicLong();
 }

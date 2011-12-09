@@ -23,7 +23,7 @@ import com.topfirst.backend.entities.User;
  *
  * @author Rod Odin
  */
-@ManagedBean(name = "homePage")
+@ManagedBean(name = "homePageBean")
 @RequestScoped
 public class HomePageController
 {

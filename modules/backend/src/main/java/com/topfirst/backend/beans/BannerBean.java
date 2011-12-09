@@ -71,10 +71,13 @@ public class BannerBean
 			                   + "Long Banner Comments B " + i + "\n"
 			                   + "Long Banner Comments C " + i + "\n"
 			);
-			banner.setImagePath("resources/img/banner.png"); // Now the same banner for all
-			save(banner);
+			banner.setImagePath("resources/img/banner-place-holder.png"); // Now the same banner for all
 			rv.add(banner);
 		}
 		return rv;
 	}
+
+// Attributes ----------------------------------------------------------------------------------------------------------
+
+
 }

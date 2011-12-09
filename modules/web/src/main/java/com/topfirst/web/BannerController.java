@@ -50,13 +50,13 @@ public class BannerController
 
 	public Banner getSelectedBanner()
 	{
-		LOG.info("Banner get: selectedBanner=" + (selectedBanner != null ? (selectedBanner.getTitle()) : null));
+		//LOG.info("Banner get: selectedBanner=" + (selectedBanner != null ? (selectedBanner.getTitle()) : null));
 		return selectedBanner;
 	}
 
 	public void setSelectedBanner(Banner selectedBanner)
 	{
-		LOG.info("Banner set: selectedBanner=" + (selectedBanner != null ? (selectedBanner.getTitle()) : null));
+		//LOG.info("Banner set: selectedBanner=" + (selectedBanner != null ? (selectedBanner.getTitle()) : null));
 		this.selectedBanner = selectedBanner;
 	}
 
