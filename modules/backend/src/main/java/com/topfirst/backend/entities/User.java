@@ -81,6 +81,16 @@ public class User
 		this.passwordSignature = passwordSignature;
 	}
 
+  public boolean isLoggedIn()
+  {
+    return loggedIn;
+  }
+
+  public void setLoggedIn(boolean loggedIn)
+  {
+    this.loggedIn = loggedIn;
+  }
+
 // Attributes ----------------------------------------------------------------------------------------------------------
 
 	private static final long serialVersionUID = 1599247075954774216L;
@@ -88,4 +98,5 @@ public class User
 	private Long id;
 	private String username;
 	private String passwordSignature;
+  boolean loggedIn;
 }
