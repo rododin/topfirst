@@ -14,7 +14,23 @@
 	<body>
 
 		<ui:composition>
+            <h:panelGrid columns="2" style="width:80%">
+                <p:panel >
+                    <h:outputText value="site baner v.003"/>
+                </p:panel>
+                <p:panel header="login" style="width:50%">
+                    <h:form>
+                        <h:panelGrid columns="2">
+                            <h:outputText value="login"/>
+                            <p:inputText value="#{UserLogin.Username}" style="width:30" />
 
+                            <h:outputText value="password"/>
+                            <p:password minLength="8" feedback="FALSE" value="#{UserLogin.Password}"/>
+                        </h:panelGrid>
+                        <p:commandButton value="login" actionListener="#{UserLogin.loginBottomPressed}" />
+                    </h:form>
+                </p:panel>
+            </h:panelGrid>
 		</ui:composition>
 
 	</body>

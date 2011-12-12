@@ -143,7 +143,7 @@ li:hover #menu_b3 { background-position: -148px -39px; }
 	/*background-color: rgb(234, 255, 253);*/
 	margin: 0 0 0 3%;
 	width: 98%;
-	height: 200px;
+	height: 260px;
 	/*border: 0px solid rgb(0, 32, 128);*/
 }
 
@@ -306,7 +306,7 @@ li:hover #menu_b3 { background-position: -148px -39px; }
 	width: 100%;
 	height: 100px;
 	text-align: center;
-	height: 25px;
+	/*height: 25px;*/
 	/*border: 0px solid rgb(0, 32, 128);*/
 }
 
