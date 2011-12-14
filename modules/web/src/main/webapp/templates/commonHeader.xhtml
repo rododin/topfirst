@@ -16,19 +16,21 @@
 		<ui:composition>
             <h:panelGrid columns="2" style="width:80%">
                 <p:panel >
-                    <h:outputText value="site baner v.003"/>
+                    <h:outputText value="site baner v.005"/>
                 </p:panel>
-                <p:panel header="login" style="width:50%">
-                    <h:form>
+                <p:panel header="login" style="width:50%" rendered="#{UserLogin.authResult == 'false'}">
+
+                    <h:form id="userAuth">
                         <h:panelGrid columns="2">
                             <h:outputText value="login"/>
-                            <p:inputText value="#{UserLogin.Username}" style="width:30" />
+                            <p:inputText value="#{UserLogin.username}" style="width:30" />
 
                             <h:outputText value="password"/>
-                            <p:password minLength="8" feedback="FALSE" value="#{UserLogin.Password}"/>
+                            <p:password minLength="8" feedback="FALSE" value="#{UserLogin.password}"/>
                         </h:panelGrid>
                         <p:commandButton value="login" actionListener="#{UserLogin.loginBottomPressed}" />
                     </h:form>
+                    <h:outputText value="#{UserLogin.username}" />
                 </p:panel>
             </h:panelGrid>
 		</ui:composition>
