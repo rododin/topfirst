@@ -3,5 +3,3 @@
 /modules/web/target
 /modules/generic/target
 /modules/backend/target
-
-/modules/web/src/main/java/com/topfirst/web/UserLogin.java
