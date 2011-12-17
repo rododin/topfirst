@@ -13,24 +13,26 @@
 		<class>com.topfirst.backend.entities.Banner</class>
 
 		<!-- Lightweight In-Memory H2 DB -->
-		<properties>
-			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />
-			<property name="javax.persistence.jdbc.user" value="sa" />
-			<property name="javax.persistence.jdbc.password" value="" />
+		<!--<properties>-->
+			<!--<property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />-->
+			<!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE" />-->
+			<!--<property name="javax.persistence.jdbc.user" value="sa" />-->
+			<!--<property name="javax.persistence.jdbc.password" value="" />-->
 
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.hbm2ddl.auto" value="create" />
-		</properties>
+			<!--<property name="hibernate.show_sql" value="false" />-->
+			<!--<property name="hibernate.hbm2ddl.auto" value="create" />-->
+		<!--</properties>-->
 
 		<!-- MySQL DB -->
-		<!--<properties>-->
-			<!--<property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/topfirst"/>-->
-			<!--<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>-->
-			<!--<property name="hibernate.connection.username" value="root"/>-->
-			<!--<property name="hibernate.connection.password" value="root"/>-->
-			<!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
-		<!--</properties>-->
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/topfirst" />
+			<property name="javax.persistence.jdbc.user" value="topfirst" />
+			<property name="javax.persistence.jdbc.password" value="topfirst" />
+
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.hbm2ddl.auto" value="create"/>
+		</properties>
 
 	</persistence-unit>
 
