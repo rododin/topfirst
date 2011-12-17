@@ -17,26 +17,38 @@
 
 		<p:panel id="login" style="position: absolute;right: 15px;%">
 			<p:panel header="login" rendered="#{UserLogin.authResult == 'false'}">
-				<h:form id="userAuth">
-					<h:panelGrid columns="2">
-						<h:outputText value="login"/>
-						<p:inputText value="#{UserLogin.username}" style="width:30" />
-						<h:outputText value="password"/>
-						<p:password minLength="8" feedback="FALSE" value="#{UserLogin.password}"/>
-						<p:commandButton value="login" update="login" actionListener="#{UserLogin.loginBottomPressed}" />
-						<h:link hreflang="">registration</h:link>
-					</h:panelGrid>
-				</h:form>
+				<h:panelGrid columns="2">
+					<h:outputText value="login"/>
+					<p:inputText value="#{UserLogin.username}" style="width:30" />
+					<h:outputText value="password"/>
+					<p:password minLength="8" feedback="FALSE" value="#{UserLogin.password}"/>
+					<p:commandButton value="login" update="login" actionListener="#{UserLogin.loginBottomPressed}" />
+					<p:commandLink  >registration</p:commandLink>
+				</h:panelGrid>
 			</p:panel>
 			<p:panel header="user" rendered="#{UserLogin.authResult != 'false'}">
-				<h:form>
-					<p:commandButton value="logout" update="login" actionListener="#{UserLogin.logoutBottomPressed}" />
-					<h:outputText value=" You login as "/>
-					<h:outputText value="#{UserLogin.username}" style="font-weight: bold" />
-				</h:form>
+				<p:commandButton value="logout" update="login" actionListener="#{UserLogin.logoutBottomPressed}" />
+				<h:outputText value=" You login as "/>
+				<h:outputText value="#{UserLogin.username}" style="font-weight: bold" />
 			</p:panel>
 		</p:panel>
+<!-- убираем панель с регистрацией пользователя
+		<p:dialog header="New user registrarion v.004" widgetVar="dlgNewUser" resizable="false">
+			<h:panelGrid columns="2">
+				<h:outputText value="User name*" />
+				<p:inputText />
 
+				<h:outputText value="Password*" />
+				<p:password feedback="true" minLength="8" required="true" requiredMessage="Value is required" />
+
+				<h:outputText value="Confirm*"/>
+				<p:password feedback="true" minLength="8" />
+
+				<p:commandButton value="Submit" />
+				<p:commandButton value="Cancel" oncomplete="dlgNewUser.hide()" />
+			</h:panelGrid>
+		</p:dialog>
+-->
 	</ui:composition>
 
 	</body>

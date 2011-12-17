@@ -5,6 +5,7 @@
 package com.topfirst.backend.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -81,7 +82,18 @@ public class User
 		this.passwordSignature = passwordSignature;
 	}
 
-  public boolean isLoggedIn()
+	@Column(name="birth_date")
+	public Date getBirthDate()
+	{
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate)
+	{
+		this.birthDate = birthDate;
+	}
+
+	public boolean isLoggedIn()
   {
     return loggedIn;
   }
@@ -98,5 +110,6 @@ public class User
 	private Long id;
 	private String username;
 	private String passwordSignature;
+	private Date birthDate;
   boolean loggedIn;
 }
