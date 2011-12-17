@@ -18,7 +18,7 @@ import com.topfirst.backend.entities.Banner;
 import com.topfirst.backend.entities.User;
 
 /**
- * Description.
+ * The BackEnd singleton.
  *
  * @author Rod Odin
  */
