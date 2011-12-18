@@ -1,143 +1,47 @@
-/* 
+/*
  * Banner.java
  */
 
 package com.topfirst.backend.entities;
 
-import java.io.Serializable;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
+import java.util.Date;
 
 /**
- * Description.
+ * Represents a banner added by user.
  *
  * @author Rod Odin
  */
-@Entity
-@Table( name = "banners" )
-public class Banner
-	implements Serializable
+public interface Banner
+	extends Entity
 {
-// Constructors --------------------------------------------------------------------------------------------------------
-
 	/**
-	 * Required for Hibernate
+	 * Introduces business level banner violation constraints.
 	 */
-	public Banner()
+	public static enum BannerConstraintViolation
 	{
+		IllegalTitleFormat, IllegalIntroFormat, IllegalImagePathFormat
 	}
 
-// Getters/Setters -----------------------------------------------------------------------------------------------------
+	public String getTitle();
+	public void setTitle(String title);
 
-	@Id
-	@Column(name="banner_id")
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
-	public Long getId()
-	{
-		return id;
-	}
+	public String getIntro();
+	public void setIntro(String intro);
 
-	private void setId(Long id)
-	{
-		this.id = id;
-	}
+	public String getComments();
+	public void setComments(String comments);
 
-	@Column(name="title")
-	public String getTitle()
-	{
-		return title;
-	}
+	public String getImagePath();
+	public void setImagePath(String imagePath);
 
-	public void setTitle(String title)
-	{
-		this.title = title;
-	}
+	public User getUser();
+	//public void setUser(User user);
 
-	@Column(name="intro")
-	public String getIntro()
-	{
-		return intro;
-	}
+	public long getRank();
+	//public void setRank(long rank);
+	public long incrementRank();
+	public long updateRankBy(long updateValue);
 
-	public void setIntro(String intro)
-	{
-		this.intro = intro;
-	}
-
-	@Column(name="comments")
-	public String getComments()
-	{
-		return comments;
-	}
-
-	public void setComments(String comments)
-	{
-		this.comments = comments;
-	}
-
-	@Column(name="image_path")
-	public String getImagePath()
-	{
-		return imagePath;
-	}
-
-	public void setImagePath(String imagePath)
-	{
-		this.imagePath = imagePath;
-	}
-
-	@ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
-	@JoinColumn(name="user_id")
-	public User getUser()
-	{
-		return user;
-	}
-
-	public void setUser(User user)
-	{
-		this.user = user;
-	}
-
-	@Column(name="rank")
-	public long getRank()
-	{
-		return rank.get();
-	}
-
-	public void setRank(long rank)
-	{
-		this.rank.set(rank);
-	}
-
-	public long incrementRank()
-	{
-		return rank.incrementAndGet();
-	}
-
-	public long updateRankBy(long updateValue)
-	{
-		return rank.addAndGet(updateValue);
-	}
-
-// Attributes ----------------------------------------------------------------------------------------------------------
-
-	private static final long serialVersionUID = 6773056427224320511L;
-
-	private Long id;
-	private String title;
-	private String intro;
-	private String comments;
-	private String imagePath;
-	private User user;
-	private AtomicLong rank = new AtomicLong();
+	public Date getCreationDate();
+	//public void setCreationDate(Date date);
 }

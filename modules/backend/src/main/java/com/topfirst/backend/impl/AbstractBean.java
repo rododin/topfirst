@@ -2,18 +2,25 @@
  * AbstractBean.java
  */
 
-package com.topfirst.backend.beans;
+package com.topfirst.backend.impl;
 
 import javax.persistence.EntityManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * Not a real EJB3 bean, but a primitive substitute.
+ * Introduces a useful base implementation of the <code>{@link Bean}</code> interface.
  *
  * @author Rod Odin
  */
-public abstract class AbstractBean <Entity>
-	implements Bean<Entity>
+public abstract class AbstractBean
+	implements Bean
 {
+// Constants -----------------------------------------------------------------------------------------------------------
+
+	protected final static Logger LOG = LoggerFactory.getLogger(AbstractBean.class);
+
 // Constructors --------------------------------------------------------------------------------------------------------
 
 	protected AbstractBean(EntityManager entityManager)
@@ -30,5 +37,5 @@ public abstract class AbstractBean <Entity>
 
 // Attributes ----------------------------------------------------------------------------------------------------------
 
-	private EntityManager entityManager;
+	private final EntityManager entityManager;
 }

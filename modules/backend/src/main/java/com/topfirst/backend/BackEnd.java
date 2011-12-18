@@ -11,11 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.topfirst.backend.beans.BannerBean;
-import com.topfirst.backend.beans.Bean;
-import com.topfirst.backend.beans.UserBean;
-import com.topfirst.backend.entities.Banner;
-import com.topfirst.backend.entities.User;
+import com.topfirst.backend.impl.BannerManagerImpl;
+import com.topfirst.backend.impl.Bean;
+import com.topfirst.backend.impl.UserManagerImpl;
 
 /**
  * The BackEnd singleton.
@@ -31,8 +29,8 @@ public class BackEnd
 		entityManagerFactory = Persistence.createEntityManagerFactory("com.topfirst.backend.jpa");
 		defaultEntityManager = entityManagerFactory.createEntityManager();
 
-		beans.put(User  .class.getName(), new   UserBean(defaultEntityManager));
-		beans.put(Banner.class.getName(), new BannerBean(defaultEntityManager));
+		beans.put(UserManager  .class.getName(), new UserManagerImpl  (defaultEntityManager) {});
+		beans.put(BannerManager.class.getName(), new BannerManagerImpl(defaultEntityManager) {});
 		//...
 	}
 
@@ -54,10 +52,14 @@ public class BackEnd
 		return DEFAULT_BACKEND.get();
 	}
 
-	@SuppressWarnings("unchecked")
-	public <Entity> Bean<Entity> getBean(Class<Entity> entityClass)
+	public UserManager getUserManager()
 	{
-		return (Bean<Entity>)beans.get(entityClass.getName());
+		return (UserManager)beans.get(UserManager.class.getName());
+	}
+
+	public BannerManager getBannerManager()
+	{
+		return (BannerManager)beans.get(BannerManager.class.getName());
 	}
 
 // Attributes ----------------------------------------------------------------------------------------------------------
@@ -67,5 +69,5 @@ public class BackEnd
 	private EntityManagerFactory entityManagerFactory;
 	private EntityManager defaultEntityManager;
 
-	private Map<String, Bean<?>> beans = new HashMap<String, Bean<?>>();
+	private Map<String, Bean> beans = new HashMap<>();
 }

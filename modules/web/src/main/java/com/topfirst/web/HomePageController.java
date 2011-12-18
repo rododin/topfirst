@@ -12,11 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import com.topfirst.backend.BackEnd;
-import com.topfirst.backend.beans.UserBean;
+import com.topfirst.backend.impl.UserManagerImpl;
 import com.topfirst.generic.utils.DateTimeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.topfirst.backend.entities.User;
+import com.topfirst.backend.impl.entities.UserImpl;
 
 /**
  * The backed bean for <code>homePage.xhtml</code>.
@@ -38,30 +38,30 @@ public class HomePageController
 	 */
 	public String send()
 	{
-		LOG.info("send 1: username=" + username + ", newUserAdded=" + newUserAdded);
-
-		final UserBean userBean = (UserBean) BackEnd.getDefaultBackend().getBean(User.class);
-		final Map<String,User> allUsers = userBean.getAllUsersMappedByUsername();
-		User user = allUsers.get(username);
-		if (user == null)
-		{
-			user = userBean.create();
-			user.setUsername(username);
-			user.setPasswordSignature(password);
-			user = userBean.save(user);
-			newUserAdded.set(true);
-
-			username = user.getUsername();
-			this.user.set(user);
-		}
-		else
-		{
-			newUserAdded.set(false);
-			if (user.getPasswordSignature().compareTo(password)!=0)
-				return  "salutationPage.xhtml";
-		}
-
-		LOG.info("send 2: username=" + username + ", newUserAdded=" + newUserAdded);
+		//LOG.info("send 1: username=" + username + ", newUserAdded=" + newUserAdded);
+		//
+		//final UserManagerImpl userManager = (UserManagerImpl) BackEnd.getDefaultBackend().getBean(UserImpl.class);
+		//final Map<String,UserImpl> allUsers = userManager.getAllUsersMappedByUsername();
+		//UserImpl user = allUsers.get(username);
+		//if (user == null)
+		//{
+		//	user = userManager.create();
+		//	user.setUsername(username);
+		//	user.setPasswordSignature(password);
+		//	user = userManager.save(user);
+		//	newUserAdded.set(true);
+		//
+		//	username = user.getUsername();
+		//	this.user.set(user);
+		//}
+		//else
+		//{
+		//	newUserAdded.set(false);
+		//	if (user.getPasswordSignature().compareTo(password)!=0)
+		//		return  "salutationPage.xhtml";
+		//}
+		//
+		//LOG.info("send 2: username=" + username + ", newUserAdded=" + newUserAdded);
 
 		return "salutationPage.xhtml";
 	}
@@ -106,6 +106,6 @@ public class HomePageController
 
 	private String username;
 	private String password;
-	private final AtomicReference<User> user = new AtomicReference<User>();
+	private final AtomicReference<UserImpl> user = new AtomicReference<UserImpl>();
 	private final AtomicBoolean newUserAdded = new AtomicBoolean();
 }
