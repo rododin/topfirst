@@ -1,10 +1,11 @@
 use `topfirst`;
-
+/* email='1@1.com' password='111' sig='408778833bb3a85bc6e418f96b8b22d9' */
 insert into `users` (user_id, email, first_name, last_name, password_signature, disabled)
-  values(1, 'test_user_1@host.com', 'test_1', 'user_1', 'asdfghqwertyzxcv', 0);
+  values(1, '1@1.com', 'test_1', 'user_1', '408778833bb3a85bc6e418f96b8b22d9', 0);
 
+/*email='2@2.com' password='222' sig='7a19947f4acbcd21c61bb033d261022'*/
 insert into `users` (user_id, email, first_name, last_name, password_signature, disabled)
-  values(2, 'test_user_2@host.com', 'test_2', 'user_2', 'qwertyasdfghvcxz', 0);
+  values(2, '2@2.com', 'test_2', 'user_2', '7a19947f4acbcd21c61bb033d261022', 0);
 
 insert into `users` (user_id, email, first_name, last_name, password_signature, disabled)
   values(3, 'test_user_3@host.com', 'test_3', 'user_3', 'zxcvbnasdfghqwer', 0);
