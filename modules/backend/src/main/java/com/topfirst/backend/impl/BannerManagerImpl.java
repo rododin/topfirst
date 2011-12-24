@@ -4,11 +4,17 @@
 
 package com.topfirst.backend.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
 
 import com.topfirst.backend.BackEnd;
@@ -44,6 +50,7 @@ public abstract class BannerManagerImpl
 
 	public Collection<? extends Banner> getAllBanners(BannerSortMode sortMode, int howManyFirstEntities) throws PersistenceException
 	{
+		EntityTransaction transaction = null;
 		try
 		{
 			if (sortMode == null)
@@ -52,12 +59,13 @@ public abstract class BannerManagerImpl
 			// TODO: Implement sortMode support
 
 			final EntityManager entityManager = getEntityManager();
-			entityManager.getTransaction().begin();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
 			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b order by b.rank desc, b.creationDate, b.user.email", BannerImpl.class);
 			if (howManyFirstEntities > 0)
 				query.setMaxResults(howManyFirstEntities);
 			final List<BannerImpl> banners = query.getResultList();
-			entityManager.getTransaction().commit();
+			transaction.commit();
 
 			if (banners != null)
 			{
@@ -71,6 +79,8 @@ public abstract class BannerManagerImpl
 		}
 		catch (Exception x)
 		{
+			if (transaction != null)
+				transaction.rollback();
 			final String msg = "Unable to get Banners: sortMode=" + sortMode + ", howManyFirstEntities=" + howManyFirstEntities;
 			LOG.error(msg, x);
 			throw new PersistenceException(msg, x);
@@ -83,6 +93,7 @@ public abstract class BannerManagerImpl
 			throw new UserException("User is not still persisted", null);
 		final BannerImpl banner = new BannerImpl();
 		banner.setUser((UserImpl)user);
+		banner.setCreationDate(new Date());
 		return banner;
 	}
 
@@ -100,7 +111,47 @@ public abstract class BannerManagerImpl
 
 	public void addOrUpdateBanner(User user, Banner banner) throws UserException, BannerException, PersistenceException
 	{
-		// TODO: Implement
+		synchronized (banner)
+		{
+			if (banner.isNew() || banner.isModified())
+			{
+				final Set<Banner.BannerConstraintViolation> constrainViolations = verifyBanner(banner);
+				if (constrainViolations != null)
+				{
+					final String msg = "Unable to add/update banner: user=" + user + ", banner=" + banner + ", constrainViolations=" + constrainViolations;
+					LOG.error(msg);
+					throw new BannerException(msg, constrainViolations.iterator().next());
+				}
+				EntityTransaction transaction = null;
+				try
+				{
+					final UserImpl userImpl = (UserImpl) user;
+					final BannerImpl bannerImpl = (BannerImpl) banner;
+					bannerImpl.setUser(userImpl);
+					userImpl.addBanner(bannerImpl);
+
+					final EntityManager entityManager = getEntityManager();
+					transaction = entityManager.getTransaction();
+					transaction.begin();
+					if (banner.isNew())
+						entityManager.persist(banner);
+					else
+						entityManager.merge(bannerImpl);
+					transaction.commit();
+
+					bannerImpl.setNew(false);
+					bannerImpl.setModified(false);
+				}
+				catch (Exception x)
+				{
+					if (transaction != null)
+						transaction.rollback();
+					final String msg = "Unable to add/update banner: user=" + user + ", banner=" + banner;
+					LOG.error(msg, x);
+					throw new PersistenceException(msg, x);
+				}
+			}
+		}
 	}
 
 	public void removeBanner(Banner banner) throws BannerException, PersistenceException
@@ -109,4 +160,37 @@ public abstract class BannerManagerImpl
 	}
 
 	// TODO: Check here if we need an LRU cache of banners? 100K banners?
+
+// Testing/debugging stuff ---------------------------------------------------------------------------------------------
+
+	public List<Banner> checkAndPopulateTestBanners(Map<String, User> testUsers)
+	{
+		final List<Banner> rv = new LinkedList<>();
+		try
+		{
+			for (User user : testUsers.values())
+			{
+				final Collection<? extends Banner> banners = user.getBanners();
+				final List<Banner> bannersList = new ArrayList<> ();
+				if (banners != null)
+					bannersList.addAll(banners);
+				while (bannersList.size() < 5)
+				{
+					final Banner banner = createDefaultBannerForUser(user);
+					banner.setTitle(UUID.randomUUID().toString());
+					banner.setIntro(UUID.randomUUID().toString());
+					banner.setComments(UUID.randomUUID().toString());
+					banner.setImagePath("resources/img/banner-place-holder.png");
+					bannersList.add(banner);
+					addOrUpdateBanner(user, banner);
+				}
+				rv.addAll(bannersList);
+			}
+		}
+		catch (Exception x)
+		{
+			LOG.error("Checking/populating test banners error", x);
+		}
+		return rv;
+	}
 }

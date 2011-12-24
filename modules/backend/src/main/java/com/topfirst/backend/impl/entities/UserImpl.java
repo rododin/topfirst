@@ -4,22 +4,17 @@
 
 package com.topfirst.backend.impl.entities;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.topfirst.backend.entities.User;
-import com.topfirst.generic.utils.PasswordSignatureGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -116,12 +111,12 @@ public class UserImpl
 	@OneToMany(mappedBy = "user")
 	public Collection<BannerImpl> getBanners()
 	{
-		return Collections.unmodifiableList(banners);
+		return banners;
 	}
 
 	public void setBanners(Collection<BannerImpl> banners)
 	{
-		this.banners = banners != null ? new ArrayList<BannerImpl>(banners) : new ArrayList<BannerImpl>();
+		this.banners = banners != null ? banners : new LinkedList<BannerImpl>();
 		setModified(true);
 	}
 
@@ -169,7 +164,7 @@ public class UserImpl
 	private String passwordSignature;
 	private String firstName;
 	private String lastName;
-	private List<BannerImpl> banners = new LinkedList<>();
+	private Collection<BannerImpl> banners = new LinkedList<>();
 	private boolean disabled;
 	private boolean loggedIn;
 }

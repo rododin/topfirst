@@ -5,6 +5,8 @@
 package com.topfirst.backend;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.topfirst.backend.entities.Banner;
@@ -85,4 +87,15 @@ public interface BannerManager
 	 * @throws PersistenceException if the system cannot access the persistence storage or another problem occurs
 	 */
 	public void removeBanner(Banner banner) throws BannerException, PersistenceException;
+
+// Testing/debugging stuff ---------------------------------------------------------------------------------------------
+
+	/**
+	 * The method checks whether a set of test banners presents or not, and if there is no a banner,
+	 * it will be created and inserted to DB.
+	 * @see UserManager#checkAndPopulateTestUsers(Set)
+	 * @param testUsers the map of test users returned by <code>{@link UserManager#checkAndPopulateTestUsers(Set)}</code>
+	 * @return non-<code>null</code> and non-empty list of <code>{@link Banner}</code>s
+	 */
+	public List<Banner> checkAndPopulateTestBanners(Map<String, User> testUsers);
 }

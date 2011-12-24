@@ -4,6 +4,7 @@
 
 package com.topfirst.backend;
 
+import java.util.Map;
 import java.util.Set;
 
 import com.topfirst.backend.entities.User;
@@ -112,4 +113,25 @@ public interface UserManager
 	 * @throws PersistenceException if the system cannot access the persistence storage or another problem occurs
 	 */
 	public void enableUser(String email) throws PersistenceException;
+
+// Testing/debugging stuff ---------------------------------------------------------------------------------------------
+
+	/**
+	 * Just populates and returns a set of testing user emails.
+	 * This method returns a constant set, so it can be used for <code>{@link #checkAndPopulateTestUsers(Set)}</code>
+	 * and for creating banners.
+	 * @see #checkAndPopulateTestUsers(Set)
+	 * @return non-<code>null</code> and non-empty set of testing emails
+	 */
+	public Set<String> getTestUserEmails();
+
+	/**
+	 * The method checks whether the set of provided test user accounts presents or not,
+	 * and if no test user presents for one of provided <code>emails</code>, it creates one and inserts it to DB.
+	 * @see #getTestUserEmails()
+	 * @see BannerManager#checkAndPopulateTestBanners(Map)
+	 * @param emails the set of test user emails to check for
+	 * @return non-<code>null</code> and non-empty map of test user accounts mapped by <code>{@link User#getEmail() email}</code>
+	 */
+	public Map<String, User> checkAndPopulateTestUsers(Set<String> emails);
 }

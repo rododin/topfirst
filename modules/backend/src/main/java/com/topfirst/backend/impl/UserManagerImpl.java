@@ -5,9 +5,14 @@
 package com.topfirst.backend.impl;
 
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 
 import com.topfirst.backend.BackEnd;
 import com.topfirst.backend.UserManager;
@@ -46,27 +51,38 @@ public abstract class UserManagerImpl
 
 	public UserImpl getUser(String email) throws PersistenceException
 	{
+		UserImpl rv = null;
+		EntityTransaction transaction = null;
 		try
 		{
 			if (email == null)
 				throw new NullPointerException("email is null");
 			final EntityManager entityManager = getEntityManager();
-			entityManager.getTransaction().begin();
-			final UserImpl rv = entityManager.createQuery("select u from UserImpl as u where u.email = ?1", UserImpl.class).setParameter(1, email).getSingleResult();
-			entityManager.getTransaction().commit();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			rv = entityManager.createQuery("select u from UserImpl as u where u.email = ?1", UserImpl.class).setParameter(1, email).getSingleResult();
+			transaction.commit();
 			if (rv != null)
 			{
 				rv.setNew(false);
 				rv.setModified(false);
 			}
-			return rv;
+		}
+		catch (NoResultException x)
+		{
+			if (transaction != null)
+				transaction.rollback();
+			LOG.warn("User doesn't exist: email=" + email);
 		}
 		catch (Exception x)
 		{
+			if (transaction != null)
+				transaction.rollback();
 			final String msg = "Unable to get User by email: email=" + email;
 			LOG.error(msg, x);
 			throw new PersistenceException(msg, x);
 		}
+		return rv;
 	}
 
 	public UserImpl createDefaultUser()
@@ -90,9 +106,9 @@ public abstract class UserManagerImpl
 
 	public void addOrUpdateUser(User user) throws UserException, PersistenceException
 	{
-		if (user.isNew() || user.isModified())
+		synchronized (user)
 		{
-			synchronized (user)
+			if (user.isNew() || user.isModified())
 			{
 				final Set<User.UserConstraintViolation> constrainViolations = verifyUser(user);
 				if (constrainViolations != null)
@@ -101,29 +117,36 @@ public abstract class UserManagerImpl
 					LOG.error(msg);
 					throw new UserException(msg, constrainViolations.iterator().next());
 				}
+				EntityTransaction transaction = null;
 				try
 				{
 					final UserImpl userImpl = (UserImpl) user;
 					userImpl.setPasswordSignature(PasswordSignatureGenerator.createSignature(userImpl.getEmail(), userImpl.getPassword()));
 
 					final EntityManager entityManager = getEntityManager();
-					entityManager.getTransaction().begin();
+					transaction = entityManager.getTransaction();
+					transaction.begin();
 					if (user.isNew())
 						entityManager.persist(user);
 					else
 						entityManager.merge(user);
+					transaction.commit();
 
 					userImpl.setNew(false);
 					userImpl.setModified(false);
 				}
 				catch (EntityExistsException x)
 				{
+					if (transaction != null)
+						transaction.rollback();
 					final String msg = "Unable to add/update user: user=" + user + ", constrainViolations=" + User.UserConstraintViolation.EmailAlreadyExists;
 					LOG.error(msg, x);
 					throw new UserException(msg, User.UserConstraintViolation.EmailAlreadyExists);
 				}
 				catch (Exception x)
 				{
+					if (transaction != null)
+						transaction.rollback();
 					final String msg = "Unable to add/update user: user=" + user;
 					LOG.error(msg, x);
 					throw new PersistenceException(msg, x);
@@ -190,4 +213,51 @@ public abstract class UserManagerImpl
 	}
 
 	// TODO: Check here if we need an LRU cache of users? 30K users?
+
+// Testing/debugging stuff ---------------------------------------------------------------------------------------------
+
+	public Set<String> getTestUserEmails()
+	{
+		final Set<String> emails = new LinkedHashSet<>();
+		for (int i = 0; i < 10; i++)
+			emails.add("test" + i + "@test.topfirst.com");
+		return emails;
+	}
+
+	public Map<String, User> checkAndPopulateTestUsers(Set<String> emails)
+	{
+		final Map<String, User> rv = new LinkedHashMap<>();
+		try
+		{
+			// Checking the users, if someone doesn't present, creating him and adding to DB
+			// Inserting the user to the result map
+			for (String email : emails)
+			{
+				UserImpl user = getUser(email);
+				if (user == null)
+				{
+					final String[] emailParts = email.split("@");
+					final String firstName = emailParts[0];
+					final String lastName = emailParts[1];
+
+					user = createDefaultUser();
+					user.setEmail(email);
+					user.setPassword(firstName);
+					user.setPasswordSignature(PasswordSignatureGenerator.createSignature(user.getEmail(), user.getPassword()));
+					user.setFirstName(firstName);
+					user.setLastName(lastName);
+					user.setDisabled(false);
+
+					addOrUpdateUser(user);
+					user = getUser(email);
+				}
+				rv.put(email, user);
+			}
+		}
+		catch (Exception x)
+		{
+			LOG.error("User checking/population error", x);
+		}
+		return rv;
+	}
 }

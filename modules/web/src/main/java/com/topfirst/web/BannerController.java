@@ -6,11 +6,14 @@ package com.topfirst.web;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import javax.faces.bean.ManagedBean;
 
 import com.topfirst.backend.BackEnd;
 import com.topfirst.backend.BannerManager;
+import com.topfirst.backend.UserManager;
 import com.topfirst.backend.entities.Banner;
+import com.topfirst.backend.entities.User;
 import com.topfirst.backend.exceptions.PersistenceException;
 import com.topfirst.backend.impl.entities.BannerImpl;
 import org.slf4j.Logger;
@@ -46,9 +49,11 @@ public class BannerController
 		{
 			try
 			{
-				//final UserManager userManager = BackEnd.getDefaultBackend().getUserManager();
-				//userManager.getUser("user@host.com");
+				final UserManager userManager = BackEnd.getDefaultBackend().getUserManager();
+				final Map<String,User> testUsers = userManager.checkAndPopulateTestUsers(userManager.getTestUserEmails());
+
 				final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
+				bannerManager.checkAndPopulateTestBanners(testUsers);
 				banners.addAll(bannerManager.getAllBanners(BannerManager.BannerSortMode.ByDate, 1000));
 			}
 			catch (PersistenceException x)
