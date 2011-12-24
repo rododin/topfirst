@@ -32,7 +32,7 @@
 
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.connection.autocommit" value="true"/>
-			<property name="hibernate.hbm2ddl.auto" value="create"/>
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>
 
 	</persistence-unit>
