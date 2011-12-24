@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC
+				"-//W3C//DTD XHTML 1.0 Transitional//EN"
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<h:body>
+
+	<ui:composition template="/templates/commonLayout.xhtml">
+
+		<ui:define name="content">
+			<p:panel header="New user registration" id="pCreateUser" style="width:100%">
+				<h:panelGrid columns="3">
+					<h:outputText value="e-mail* " style="text-align:left; width:150px"  />
+					<p:inputText id="emali" value="#{createAccountBean.email}"/>
+					<p:message for="emali" id="emailMsg" />
+
+					<h:outputText value="Password* " />
+					<p:password id="password" value="#{createAccountBean.password}" feedback="false" minLength="6"/>
+					<p:message for="password" id="passwordMsg"/>
+
+					<h:outputText value="Confirm* " />
+					<p:password id="confirm" value="#{createAccountBean.confirm}" feedback="true" minLength=""/>
+					<p:message for="confirm" id="confirmMsg"/>
+
+					<h:outputText value="First name " />
+					<p:inputText id="firstName" value="#{createAccountBean.firstName}" />
+					<p:message for="firstName" id="firstNameMsg"/>
+
+					<h:outputText value="Last name" />
+					<p:inputText id="lastName" value="#{createAccountBean.lastName}" />
+					<p:message for="lastName" id="lastNameMsg"/>
+
+				</h:panelGrid>
+				<h:panelGrid columns="3">
+					<p:commandButton value="Create account006" actionListener="#{createAccountBean.createAccountPressed}" update="pCreateUser" />
+<!--
+					<p:spacer width="20"/>
+					<p:commandButton value="Cancel" action="homaPage.jsf" />
+-->
+				</h:panelGrid>
+			</p:panel>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>
