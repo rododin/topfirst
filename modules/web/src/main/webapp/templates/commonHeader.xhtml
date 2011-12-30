@@ -15,20 +15,20 @@
 		<ui:composition>
 
 			<p:outputPanel id="login" style="position: absolute;right: 15px;%">
-				<p:panel header="login 001" rendered="#{userBean.authResult == 'false'}">
+				<p:panel header="login" rendered="#{userBean.authResult == 'false'}">
 					<h:panelGrid columns="2">
 						<h:outputText value="email"/>
 						<p:inputText value="#{userBean.email}" style="width:30" />
 						<h:outputText value="password"/>
 						<p:password minLength="8" feedback="FALSE" value="#{userBean.password}"/>
-						<p:commandButton value="login" update="login" actionListener="#{userBean.loginAction}" />
+						<p:commandButton value="login" update="login" action="#{userBean.loginAction}" />
 						<h:outputLink value="userRegPage.jsf">Registration</h:outputLink>
 					</h:panelGrid>
 				</p:panel>
 				<p:panel header="user" rendered="#{userBean.authResult != 'false'}">
 					<p:commandButton value="logout" update="login" actionListener="#{userBean.logoutAction}" />
 					<h:outputText value=" You login as "/>
-					<h:outputText value="#{userBean.email}" style="font-weight: bold" />
+					<h:outputText value="#{userBean.firstName}" style="font-weight: bold" />
 				</p:panel>
 			</p:outputPanel>
 
