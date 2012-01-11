@@ -4,8 +4,10 @@
 
 package com.topfirst.web;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.topfirst.backend.BackEnd;
 import com.topfirst.backend.UserManager;
@@ -13,6 +15,7 @@ import com.topfirst.backend.entities.User;
 import com.topfirst.backend.exceptions.PersistenceException;
 import com.topfirst.backend.exceptions.UserException;
 import com.topfirst.generic.utils.PasswordSignatureGenerator;
+import org.primefaces.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,11 +80,9 @@ public class UserController
 	//  action --------------------------------------------------------
 	public String loginAction()
 	{
-		LOG.info("loginAction trace 001 -------------- tryCount="+tryCount);
 		try
 		{
 			user=userManager.loginUser(email,password);
-			LOG.info("authres"+user.isLoggedIn());
 		}
 		catch (Exception e)
 		{
@@ -90,17 +91,22 @@ public class UserController
 		if((user == null)||(!user.isLoggedIn()))
 		{
 			tryCount++;
-			LOG.info("--tryCount-"+tryCount);
 			if(tryCount > 2)
 			{
-				LOG.info("--redirect tryCount-"+tryCount);
 				return "passfailPage?faces-redirect=true";
 			}
-		};
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User with input email and password does not exist", ""));
+			return null;
+		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Wellcome "+user.getFirstName(), ""));
+		RequestContext.getCurrentInstance().addCallbackParam("loggedIn", user.isLoggedIn());
+		LOG.info("User logged in as "+user.getFirstName());
 		return null;
 	}
 	public void logoutAction()
 	{
+		setEmail("");
+		setPassword("");
 		if(user != null)
 		{
 			try
@@ -113,16 +119,6 @@ public class UserController
 			}
 		}
 	}
-	public String goAction1()
-	{
-		LOG.info("-- goAction1 --");
-		return "page1?faces-redirect=true";
-	};
-	public String goAction2()
-	{
-		LOG.info("-- goAction2 --");
-		return "passfailPage?faces-redirect=true";
-	};
 	// attributes -----------------------------------------------------
 	private String email;
 	private String password;
