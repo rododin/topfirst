@@ -4,6 +4,7 @@
 
 package com.topfirst.web;
 
+import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -118,6 +119,71 @@ public class UserController
 				LOG.error(e.getMessage(), e);
 			}
 		}
+	}
+	public String createUserAction()
+	{
+		Set<User.UserConstraintViolation> userConstraintViolations;
+		User newUser=userManager.createDefaultUser();
+		newUser.setEmail(email);
+		newUser.setPassword(password);
+		newUser.setFirstName(firstName);
+		newUser.setLastName(lastName);
+		try
+		{
+			userConstraintViolations=userManager.verifyUser(newUser);
+		}
+		catch (PersistenceException e)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "PersistenceException"));
+			return null;
+		}
+		if(userConstraintViolations==null)
+		{
+			if(!password.equals(confirm))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password and confirmation do not match", ""));
+				return null;
+			}
+		}else{
+			if(userConstraintViolations.contains(User.UserConstraintViolation.IllegalEmailFormat))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Illegal email format", ""));
+			}else{
+				if(userConstraintViolations.contains(User.UserConstraintViolation.EmailAlreadyExists))
+				{
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User with email <"+email+"> already exists", ""));
+				};
+			}
+			if(userConstraintViolations.contains(User.UserConstraintViolation.IllegalPasswordFormat))
+			{
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Illegal password format", ""));
+			}
+			if(!userConstraintViolations.isEmpty())
+			{
+				return null;
+			}
+		}
+		try
+		{
+			userManager.addOrUpdateUser(newUser);
+		}
+		catch (Exception e)
+		{
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "exception in addOrUpdateUser"));
+			return null;
+		}
+		LOG.info("Created new user with email ="+email);
+		resetAttributes();
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "The account was created successfully", ""));
+		return"homePage?faces-redirect=true";
+	}
+	private void resetAttributes()
+	{
+		setEmail("");
+		setPassword("");
+		setConfirm("");
+		setLastName("");
+		setFirstName("");
 	}
 	// attributes -----------------------------------------------------
 	private String email;

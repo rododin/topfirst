@@ -17,17 +17,18 @@
 
 		<ui:define name="content">
 			<p:panel header="New user registration" id="pCreateUser" style="width:100%">
+				<p:growl id="userCreateGrowl" life="8000"/>
 				<h:panelGrid columns="3">
 					<h:outputText value="e-mail* " style="text-align:left; width:150px"  />
 					<p:inputText id="emali" value="#{userBean.email}"/>
 					<p:message for="emali" id="emailMsg" />
 
 					<h:outputText value="Password* " />
-					<p:password id="password" value="#{userBean.password}" feedback="false" minLength="6"/>
+					<p:password id="password" value="#{userBean.password}" feedback="false" minLength=""/>
 					<p:message for="password" id="passwordMsg"/>
 
 					<h:outputText value="Confirm* " />
-					<p:password id="confirm" value="#{userBean.confirm}" feedback="true" minLength=""/>
+					<p:password id="confirm" value="#{userBean.confirm}" feedback="false" minLength=""/>
 					<p:message for="confirm" id="confirmMsg"/>
 
 					<h:outputText value="First name " />
@@ -39,15 +40,11 @@
 					<p:message for="lastName" id="lastNameMsg"/>
 
 				</h:panelGrid>
-				<h:panelGrid columns="3">
-					<p:commandButton value="Create account006" actionListener="#{userBean.goAction2}" update="pCreateUser" />
-					<p:commandButton value="action" action="#{userBean.goAction1}" />
-					<p:commandButton value="actionListener" actionListener="#{userBean.goAction1}" />
-<!--
-					<p:spacer width="20"/>
-					<p:commandButton value="Cancel" action="homaPage.jsf" />
--->
-				</h:panelGrid>
+				<f:facet name="footer">
+					<p:commandButton value="Create account" id="bCreate" update="userCreateGrowl" action="#{userBean.createUserAction}"/>
+					<p:commandButton value="Cancel" action="homePage?faces-redirect=true"/>
+				</f:facet>
+
 			</p:panel>
 		</ui:define>
 
