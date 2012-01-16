@@ -57,6 +57,9 @@ public abstract class UserManagerImpl
 		{
 			if (email == null)
 				throw new NullPointerException("email is null");
+
+			email = email.toLowerCase();
+
 			final EntityManager entityManager = getEntityManager();
 			transaction = entityManager.getTransaction();
 			transaction.begin();
@@ -160,6 +163,8 @@ public abstract class UserManagerImpl
 		UserImpl user = getUser(email);
 		if (user != null)
 		{
+			email = email.toLowerCase();
+
 			if (PasswordSignatureGenerator.createSignature(email, password).equals(user.getPasswordSignature()))
 				user.setLoggedIn(true);
 			else
