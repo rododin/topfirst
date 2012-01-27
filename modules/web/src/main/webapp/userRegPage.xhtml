@@ -18,6 +18,7 @@
 		<ui:define name="content">
 			<p:panel header="New user registration" id="pCreateUser" style="width:100%">
 				<p:growl id="userCreateGrowl" life="8000"/>
+<!--				<p:messages showDetail="true"/> -->
 				<h:panelGrid columns="3">
 					<h:outputText value="e-mail* " style="text-align:left; width:150px"  />
 					<p:inputText id="emali" value="#{userBean.email}"/>
@@ -38,9 +39,9 @@
 					<h:outputText value="Last name" />
 					<p:inputText id="lastName" value="#{userBean.lastName}" />
 					<p:message for="lastName" id="lastNameMsg"/>
-
 				</h:panelGrid>
 				<f:facet name="footer">
+					<p:captcha label="capcha" theme="white"/>
 					<p:commandButton value="Create account" id="bCreate" update="userCreateGrowl" action="#{userBean.createUserAction}"/>
 					<p:commandButton value="Cancel" action="homePage?faces-redirect=true"/>
 				</f:facet>

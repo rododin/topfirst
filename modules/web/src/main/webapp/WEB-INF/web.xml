@@ -4,8 +4,16 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         version="2.5">
 
-	<description>YouVote - Make History Together!</description>
-
+	<description>TopFirst</description>
+	<!-- capcha settings -->
+	<context-param>
+	<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+	<param-value>6Leu4swSAAAAAIs8qNC4C8IOs69AG7OJB7nf2vl6</param-value>
+	</context-param>
+	<context-param>
+	<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+	<param-value>6Leu4swSAAAAABn8eY2HjTtSigrstfG27qUfljYd</param-value>
+	</context-param>
 	<!-- JSF standard parameters -->
 	<context-param>
 		<description>
