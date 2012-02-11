@@ -15,35 +15,38 @@
 
 	<ui:composition template="/templates/commonLayout.xhtml">
 
+		<f:loadBundle basename="com.topfirst.web.PageText" var="PageText"/>
+
 		<ui:define name="content">
-			<p:panel header="New user registration" id="pCreateUser" style="width:100%">
+			<p:panel header="#{PageText.title_new_user_registration}" id="pCreateUser" style="width:100%">
 				<p:growl id="userCreateGrowl" life="8000"/>
 <!--				<p:messages showDetail="true"/> -->
 				<h:panelGrid columns="3">
-					<h:outputText value="e-mail* " style="text-align:left; width:150px"  />
-					<p:inputText id="emali" value="#{userBean.email}"/>
-					<p:message for="emali" id="emailMsg" />
+					<h:outputText value="#{PageText.label_email} * " style="text-align:left; width:150px"  />
+					<p:inputText id="id_email" value="#{userController.email}"/>
+					<p:message for="id_email" id="id_email_msg" />
 
-					<h:outputText value="Password* " />
-					<p:password id="password" value="#{userBean.password}" feedback="false" minLength=""/>
-					<p:message for="password" id="passwordMsg"/>
+					<h:outputText value="#{PageText.label_password} * " />
+					<p:password id="id_password" value="#{userController.password}" feedback="false" minLength=""/>
+					<p:message for="id_password" id="id_password_msg"/>
 
-					<h:outputText value="Confirm* " />
-					<p:password id="confirm" value="#{userBean.confirm}" feedback="false" minLength=""/>
-					<p:message for="confirm" id="confirmMsg"/>
+					<h:outputText value="#{PageText.label_confirm} * " />
+					<p:password id="id_confirm" value="#{userController.confirm}" feedback="false" minLength=""/>
+					<p:message for="id_confirm" id="id_confirm_msg"/>
 
-					<h:outputText value="First name " />
-					<p:inputText id="firstName" value="#{userBean.firstName}" />
-					<p:message for="firstName" id="firstNameMsg"/>
+					<h:outputText value="#{PageText.label_first_name} " />
+					<p:inputText id="id_first_name" value="#{userController.firstName}" />
+					<p:message for="id_first_name" id="id_first_name_msg"/>
 
-					<h:outputText value="Last name" />
-					<p:inputText id="lastName" value="#{userBean.lastName}" />
-					<p:message for="lastName" id="lastNameMsg"/>
+					<h:outputText value="#{PageText.label_last_name} " />
+					<p:inputText id="id_last_name" value="#{userController.lastName}" />
+					<p:message for="id_last_name" id="id_last_name_msg"/>
 				</h:panelGrid>
+
 				<f:facet name="footer">
-					<p:captcha label="capcha" theme="white"/>
-					<p:commandButton value="Create account" id="bCreate" update="userCreateGrowl" action="#{userBean.createUserAction}"/>
-					<p:commandButton value="Cancel" action="homePage?faces-redirect=true"/>
+					<!--<p:captcha label="captcha" theme="white"/>-->
+					<p:commandButton value="#{PageText.label_create_account}" id="bCreate" update="userCreateGrowl" action="#{userController.createUserAction}"/>
+					<p:commandButton value="#{PageText.label_cancel}" action="homePage?faces-redirect=true"/>
 				</f:facet>
 
 			</p:panel>

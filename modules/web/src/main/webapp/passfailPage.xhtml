@@ -14,8 +14,11 @@
 
 	<h:body>
 		<ui:composition template="/templates/commonLayout.xhtml">
+
+			<f:loadBundle basename="com.topfirst.web.PageText" var="PageText"/>
+
 			<ui:define name="content">
-				<p:panel header="Password Recovery page">
+				<p:panel header="#{PageText.title_password_recovery}">
 
 				</p:panel>
 			</ui:define>

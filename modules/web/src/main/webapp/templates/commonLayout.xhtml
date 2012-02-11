@@ -16,37 +16,44 @@
 	</h:head>
 
 	<h:body>
-		<h:form>
 
-		<div id="page">
+		<f:view>
 
-			<div id="header" align="left">
-				<ui:insert name="header" >
-					<ui:include src="/templates/commonHeader.xhtml" />
-				</ui:insert>
-			</div>
+			<h:form>
 
-			<div id="LeftColumn">
-			</div>
+				<f:loadBundle basename="com.topfirst.web.PageText" var="PageText"/>
 
-			<div id="content">
-				<ui:insert name="content" >
-					<ui:include src="/templates/commonContent.xhtml" />
-				</ui:insert>
-			</div>
+				<div id="page">
 
-			<div class="wrap" align="center">
-			</div>
+					<div id="header" align="left">
+						<ui:insert name="header" >
+							<ui:include src="/templates/commonHeader.xhtml" />
+						</ui:insert>
+					</div>
 
-			<div id="footer">
-				<ui:insert name="footer" >
-					<ui:include src="/templates/commonFooter.xhtml" />
-				</ui:insert>
-			</div>
+					<div id="LeftColumn">
+					</div>
 
-		</div>
+					<div id="content">
+						<ui:insert name="content" >
+							<ui:include src="/templates/commonContent.xhtml" />
+						</ui:insert>
+					</div>
 
-		</h:form>
+					<div class="wrap" align="center">
+					</div>
+
+					<div id="footer">
+						<ui:insert name="footer" >
+							<ui:include src="/templates/commonFooter.xhtml" />
+						</ui:insert>
+					</div>
+
+				</div>
+
+			</h:form>
+		</f:view>
+
 	</h:body>
 
 </html>
