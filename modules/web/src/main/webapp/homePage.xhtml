@@ -9,7 +9,7 @@
 	xmlns:h ="http://java.sun.com/jsf/html"
 	xmlns:f ="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
 
@@ -20,9 +20,9 @@
 		<ui:define name="content">
 
 			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-					columns="4" rows="16" paginator="true" effect="true"
+					columns="4" rows="8" paginator="true" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="16,20,24,28,32">
+					rowsPerPageTemplate="4,8,16,20,24,28,32">
 				<p:column>
 					<p:panel header="#{banner.title}" style="text-align:center">
 						<h:panelGrid columns="1" style="width:100%">
