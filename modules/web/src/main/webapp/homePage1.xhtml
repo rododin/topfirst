@@ -30,7 +30,7 @@
 								<h:panelGrid columns="1" style="width:100%">
 									<p:graphicImage value="#{banner.imagePath}"/>
 									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
+									<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
 										<p:graphicImage value="/resources/img/search.png"/>
 										<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 									</p:commandLink>
@@ -50,7 +50,7 @@
 								<h:panelGrid columns="1" style="width:100%">
 									<p:graphicImage value="#{banner.imagePath}"/>
 									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
+									<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
 										<p:graphicImage value="/resources/img/search.png"/>
 										<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 									</p:commandLink>
@@ -70,7 +70,7 @@
 								<h:panelGrid columns="1" style="width:100%">
 									<p:graphicImage value="#{banner.imagePath}"/>
 									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
+									<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
 										<p:graphicImage value="/resources/img/search.png"/>
 										<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 									</p:commandLink>
@@ -91,7 +91,7 @@
 								<h:panelGrid columns="1" style="width:100%">
 									<p:graphicImage value="#{banner.imagePath}"/>
 									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
+									<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
 										<p:graphicImage value="/resources/img/search.png"/>
 										<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 									</p:commandLink>
@@ -111,7 +111,7 @@
 								<h:panelGrid columns="1" style="width:100%">
 									<p:graphicImage value="#{banner.imagePath}"/>
 									<h:outputText value="#{banner.intro}" />
-									<p:commandLink update="bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
+									<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">
 										<p:graphicImage value="/resources/img/search.png"/>
 										<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 									</p:commandLink>
