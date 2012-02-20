@@ -19,104 +19,99 @@
 
 		<ui:define name="content">
 
-			<p:panel header="#{PageText.title_top_banners_1000}">
-				<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-						columns="4" rows="8" paginator="true" paginatorPosition="bottom" effect="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-						rowsPerPageTemplate="4,8,16,20,24,28,32">
-					<p:column>
-						<h:panelGrid columns="1" style="width:100%">
-							<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
-								<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
-								<p:graphicImage value="#{banner.imagePath}"/>
-							</p:commandLink>
-							<h:outputText value="#{banner.intro}" />
-							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-								<!--<p:graphicImage value="/resources/img/search.png"/>-->
-								<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-							<!--</p:commandLink>-->
-						</h:panelGrid>
-					</p:column>
-				</p:dataGrid>
-			</p:panel>
-
-			<p:spacer height="30px" width="100" />
-
-			<p:panel header="#{PageText.title_top_banners_day}">
-				<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-						columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-					<p:column>
-						<h:panelGrid columns="1" style="width:100%">
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_1000}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+					columns="4" rows="8" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="4,8,16,20,24,28,32">
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
+							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
-							<h:outputText value="#{banner.intro}" />
-							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-								<!--<p:graphicImage value="/resources/img/search.png"/>-->
-								<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-							<!--</p:commandLink>-->
-						</h:panelGrid>
-					</p:column>
-				</p:dataGrid>
-			</p:panel>
+						</p:commandLink>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
 
-			<p:spacer height="30px" width="100" />
+			<p:spacer height="15px" width="100" />
 
-			<p:panel header="#{PageText.title_top_banners_week}">
-				<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-						columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
-					<p:column>
-						<h:panelGrid columns="1" style="width:100%">
-							<p:graphicImage value="#{banner.imagePath}"/>
-							<h:outputText value="#{banner.intro}" />
-							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-								<!--<p:graphicImage value="/resources/img/search.png"/>-->
-								<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-							<!--</p:commandLink>-->
-						</h:panelGrid>
-					</p:column>
-				</p:dataGrid>
-			</p:panel>
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_day}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:graphicImage value="#{banner.imagePath}"/>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
 
-			<p:spacer height="30px" width="100" />
+			<p:spacer height="15px" width="100" />
 
-			<p:panel header="#{PageText.title_top_banners_month}">
-				<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-						columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						>
-					<p:column>
-						<h:panelGrid columns="1" style="width:100%">
-							<p:graphicImage value="#{banner.imagePath}"/>
-							<h:outputText value="#{banner.intro}" />
-							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-								<!--<p:graphicImage value="/resources/img/search.png"/>-->
-								<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-							<!--</p:commandLink>-->
-						</h:panelGrid>
-					</p:column>
-				</p:dataGrid>
-			</p:panel>
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_week}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:graphicImage value="#{banner.imagePath}"/>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
 
-			<p:spacer height="30px" width="100" />
+			<p:spacer height="15px" width="100" />
 
-			<p:panel header="#{PageText.title_top_banners_year}">
-				<p:dataGrid var="banner" value="#{bannerController.topBanners}"
-						columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
-						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-						>
-					<p:column>
-						<h:panelGrid columns="1" style="width:100%">
-							<p:graphicImage value="#{banner.imagePath}"/>
-							<h:outputText value="#{banner.intro}" />
-							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-								<!--<p:graphicImage value="/resources/img/search.png"/>-->
-								<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-							<!--</p:commandLink>-->
-						</h:panelGrid>
-					</p:column>
-				</p:dataGrid>
-			</p:panel>
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_month}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					>
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:graphicImage value="#{banner.imagePath}"/>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
+
+			<p:spacer height="15px" width="100" />
+
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_year}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+					>
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:graphicImage value="#{banner.imagePath}"/>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
 
 
 			<p:dialog header="#{PageText.text_details_on} #{bannerController.selectedBanner.title}" widgetVar="bannerDialog" width="400" height="250" modal="true">
