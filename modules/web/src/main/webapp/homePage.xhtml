@@ -26,7 +26,10 @@
 						rowsPerPageTemplate="4,8,16,20,24,28,32">
 					<p:column>
 						<h:panelGrid columns="1" style="width:100%">
-							<p:graphicImage value="#{banner.imagePath}"/>
+							<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
+								<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
+								<p:graphicImage value="#{banner.imagePath}"/>
+							</p:commandLink>
 							<h:outputText value="#{banner.intro}" />
 							<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
 								<!--<p:graphicImage value="/resources/img/search.png"/>-->

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC
+				"-//W3C//DTD XHTML 1.0 Transitional//EN"
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html
+				xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+	<ui:composition template="/templates/commonLayout.xhtml">
+
+		<ui:define name="content">
+
+			<p:graphicImage value="#{bannerController.selectedBanner.imagePath}"/>
+			<p:panel header="#{PageText.text_details_on} #{bannerController.selectedBanner.title}">
+				<h:panelGrid columns="3">
+					<h:outputText value="#{PageText.label_banner_title}"/>
+					<h:outputText value=" : "/>
+					<h:outputText value="#{bannerController.selectedBanner.title}"/>
+
+					<h:outputText styleClass="" value="#{PageText.label_banner_comments}"/>
+					<h:outputText value=" : "/>
+					<h:outputText value="#{bannerController.selectedBanner.comments}"/>
+
+					<h:outputText styleClass="" value="#{PageText.label_banner_rank}"/>
+					<h:outputText value=" : "/>
+					<h:outputText value="#{bannerController.selectedBanner.rank}"/>
+				</h:panelGrid>
+				<f:facet name="footer">
+					<p:commandButton value="#{PageText.label_vote}"></p:commandButton>
+				</f:facet>
+		</p:panel>
+			<p:panel header="#{PageText.label_user_info}">
+				<h:panelGrid columns="3">
+					<h:outputText value="#{PageText.label_first_name}"/>
+					<h:outputText value=" : "/>
+					<h:outputText value="#{bannerController.selectedBanner.user.firstName}"/>
+
+					<h:outputText value="#{PageText.label_last_name}"/>
+					<h:outputText value=" : "/>
+					<h:outputText value="#{bannerController.selectedBanner.user.lastName}"/>
+				</h:panelGrid>
+			</p:panel>
+
+
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>
