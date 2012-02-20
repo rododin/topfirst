@@ -5,6 +5,7 @@
 package com.topfirst.backend;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,6 +42,9 @@ public interface BannerManager
 	 * @throws PersistenceException if the system cannot access the persistence storage or another problem occurs
 	 */
 	public Collection<? extends Banner> getAllBanners(BannerSortMode sortMode, int howManyFirstEntities)
+		throws PersistenceException;
+
+	public Collection<? extends Banner> getBannersForPeriod(BannerSortMode sortMode, Date startTime, Date endTime, int howManyFirstEntities)
 		throws PersistenceException;
 
 	/**

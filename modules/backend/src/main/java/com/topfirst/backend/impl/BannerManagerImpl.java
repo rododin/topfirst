@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 import com.topfirst.backend.BackEnd;
@@ -56,12 +57,49 @@ public abstract class BannerManagerImpl
 			if (sortMode == null)
 				throw new NullPointerException("sortMode is null");
 
-			// TODO: Implement sortMode support
+			final EntityManager entityManager = getEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b " + getOrderByExpressionFor(sortMode, "b"), BannerImpl.class);
+			if (howManyFirstEntities > 0)
+				query.setMaxResults(howManyFirstEntities);
+			final List<BannerImpl> banners = query.getResultList();
+			transaction.commit();
+
+			if (banners != null)
+			{
+				for (BannerImpl banner : banners)
+				{
+					banner.setNew(false);
+					banner.setModified(false);
+				}
+			}
+			return banners;
+		}
+		catch (Exception x)
+		{
+			if (transaction != null)
+				transaction.rollback();
+			final String msg = "Unable to get Banners: sortMode=" + sortMode + ", howManyFirstEntities=" + howManyFirstEntities;
+			LOG.error(msg, x);
+			throw new PersistenceException(msg, x);
+		}
+	}
+
+	public Collection<? extends Banner> getBannersForPeriod(BannerSortMode sortMode, Date startTime, Date endTime, int howManyFirstEntities) throws PersistenceException
+	{
+		EntityTransaction transaction = null;
+		try
+		{
+			if (sortMode == null)
+				throw new NullPointerException("sortMode is null");
 
 			final EntityManager entityManager = getEntityManager();
 			transaction = entityManager.getTransaction();
 			transaction.begin();
-			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b order by b.rank desc, b.creationDate, b.user.email", BannerImpl.class);
+			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b where b.creationDate >= :startTime and b.creationDate <= :endTime " + getOrderByExpressionFor(sortMode, "b"), BannerImpl.class);
+			query.setParameter("startTime", startTime, TemporalType.TIMESTAMP);
+			query.setParameter("endTime", endTime, TemporalType.TIMESTAMP);
 			if (howManyFirstEntities > 0)
 				query.setMaxResults(howManyFirstEntities);
 			final List<BannerImpl> banners = query.getResultList();
@@ -192,5 +230,21 @@ public abstract class BannerManagerImpl
 			LOG.error("Checking/populating test banners error", x);
 		}
 		return rv;
+	}
+
+// Internal Logic ------------------------------------------------------------------------------------------------------
+
+	private static String getOrderByExpressionFor(BannerSortMode sortMode, String var)
+	{
+		switch (sortMode)
+		{
+			case ByDate:
+				return "order by " + var + ".creationDate desc, " + var + ".rank desc, " + var + ".user.email";
+			case ByUser:
+				return "order by " + var + ".user.email, " + var + ".rank desc, " + var + ".creationDate desc";
+			case ByRank:
+			default:
+				return "order by " + var + ".rank desc, " + var + ".creationDate desc, " + var + ".user.email";
+		}
 	}
 }

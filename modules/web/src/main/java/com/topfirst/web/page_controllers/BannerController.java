@@ -4,18 +4,16 @@
 
 package com.topfirst.web.page_controllers;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import com.topfirst.backend.BackEnd;
 import com.topfirst.backend.BannerManager;
-import com.topfirst.backend.UserManager;
 import com.topfirst.backend.entities.Banner;
-import com.topfirst.backend.entities.User;
 import com.topfirst.backend.exceptions.PersistenceException;
 
 /**
@@ -31,6 +29,11 @@ public class BannerController
 // Constants -----------------------------------------------------------------------------------------------------------
 
 	public static final String DEFAULT_RESOURCE_BUNDLE_NAME = BannerController.class.getName();
+
+	public static final long LAST_DAY_PERIOD   =  24 * 60 * 60 * 1000L;
+	public static final long LAST_WEEK_PERIOD  =   7 * LAST_DAY_PERIOD;
+	public static final long LAST_MONTH_PERIOD =  30 * LAST_DAY_PERIOD;
+	public static final long LAST_YEAR_PERIOD  = 365 * LAST_DAY_PERIOD;
 
 	public static final int TOP_ALL_BANNERS_COUNT   = 1000;
 	public static final int TOP_DAY_BANNERS_COUNT   =   10;
@@ -50,23 +53,50 @@ public class BannerController
 
 	public List<Banner> getTopBanners()
 	{
-		if (banners.isEmpty())
+		final List<Banner> banners = new LinkedList<>();
+		try
 		{
-			try
-			{
-				final UserManager userManager = BackEnd.getDefaultBackend().getUserManager();
-				final Map<String,User> testUsers = userManager.checkAndPopulateTestUsers(userManager.getTestUserEmails());
+			//final UserManager userManager = BackEnd.getDefaultBackend().getUserManager();
+			//final Map<String,User> testUsers = userManager.checkAndPopulateTestUsers(userManager.getTestUserEmails());
 
-				final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
-				bannerManager.checkAndPopulateTestBanners(testUsers);
-				banners.addAll(bannerManager.getAllBanners(BannerManager.BannerSortMode.ByRank, TOP_ALL_BANNERS_COUNT));
-			}
-			catch (PersistenceException x)
-			{
-				LOG.error("Unable to get banners", x);
-			}
+			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
+			//bannerManager.checkAndPopulateTestBanners(testUsers);
+
+			banners.addAll(bannerManager.getAllBanners(BannerManager.BannerSortMode.ByRank, TOP_ALL_BANNERS_COUNT));
+		}
+		catch (PersistenceException x)
+		{
+			LOG.error("Unable to get banners", x);
 		}
 		return banners;
+	}
+
+	public List<Banner> getTopDayBanners()
+	{
+		final Date endTime = new Date();
+		final Date startTime = new Date(endTime.getTime() - LAST_DAY_PERIOD);
+		return doGetTopPeriodBanners(startTime, endTime, TOP_DAY_BANNERS_COUNT);
+	}
+
+	public List<Banner> getTopWeekBanners()
+	{
+		final Date endTime = new Date();
+		final Date startTime = new Date(endTime.getTime() - LAST_WEEK_PERIOD);
+		return doGetTopPeriodBanners(startTime, endTime, TOP_WEEK_BANNERS_COUNT);
+	}
+
+	public List<Banner> getTopMonthBanners()
+	{
+		final Date endTime = new Date();
+		final Date startTime = new Date(endTime.getTime() - LAST_MONTH_PERIOD);
+		return doGetTopPeriodBanners(startTime, endTime, TOP_MONTH_BANNERS_COUNT);
+	}
+
+	public List<Banner> getTopYearBanners()
+	{
+		final Date endTime = new Date();
+		final Date startTime = new Date(endTime.getTime() - LAST_YEAR_PERIOD);
+		return doGetTopPeriodBanners(startTime, endTime, TOP_YEAR_BANNERS_COUNT);
 	}
 
 	public Banner getSelectedBanner()
@@ -81,8 +111,25 @@ public class BannerController
 		this.selectedBanner.set(selectedBanner);
 	}
 
+// Internal Logic ------------------------------------------------------------------------------------------------------
+
+	public List<Banner> doGetTopPeriodBanners(Date startTime, Date endTime, int howMany)
+	{
+		final List<Banner> banners = new LinkedList<>();
+		try
+		{
+			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
+			banners.addAll(bannerManager.getBannersForPeriod(BannerManager.BannerSortMode.ByRank, startTime, endTime, howMany));
+		}
+		catch (PersistenceException x)
+		{
+			LOG.error("Unable to get Top Period Banners", x);
+		}
+		return banners;
+	}
+
 // Attributes ----------------------------------------------------------------------------------------------------------
 
-	private final List<Banner> banners = new LinkedList<>();
+	//private final List<Banner> banners = new LinkedList<>();
 	private final AtomicReference<Banner> selectedBanner = new AtomicReference<>();
 }

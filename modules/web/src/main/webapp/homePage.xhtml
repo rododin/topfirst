@@ -42,7 +42,7 @@
 			<p:spacer height="15px" width="100" />
 
 			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_day}</h2>
-			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+			<p:dataGrid var="banner" value="#{bannerController.topDayBanners}"
 					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 				<p:column>
@@ -60,7 +60,7 @@
 			<p:spacer height="15px" width="100" />
 
 			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_week}</h2>
-			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+			<p:dataGrid var="banner" value="#{bannerController.topWeekBanners}"
 					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 				<p:column>
@@ -78,7 +78,7 @@
 			<p:spacer height="15px" width="100" />
 
 			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_month}</h2>
-			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+			<p:dataGrid var="banner" value="#{bannerController.topMonthBanners}"
 					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					>
@@ -97,7 +97,7 @@
 			<p:spacer height="15px" width="100" />
 
 			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_top_banners_year}</h2>
-			<p:dataGrid var="banner" value="#{bannerController.topBanners}"
+			<p:dataGrid var="banner" value="#{bannerController.topYearBanners}"
 					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
 					>
