@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TemporalType;
@@ -236,7 +239,51 @@ public abstract class BannerManagerImpl
 		// TODO: Implement
 	}
 
-	// TODO: Check here if we need an LRU cache of banners? 100K banners?
+	public long addUserVote(Banner banner, User user, int voteValue)
+	{
+		if (getUserVote(banner, user) == null)
+		{
+			final String userEmail = user.getEmail();
+			final Long bannerId    = banner.getId ();
+
+			assert userEmail != null;
+			assert bannerId  != null;
+
+			ConcurrentMap<Long, AtomicInteger> userVotes = votes.get(userEmail);
+			if (userVotes == null)
+			{
+				votes.putIfAbsent(userEmail, new ConcurrentHashMap<Long, AtomicInteger>());
+				userVotes = votes.get(userEmail);
+			}
+			AtomicInteger userVote = userVotes.get(bannerId);
+			if (userVote == null)
+			{
+				userVotes.putIfAbsent(bannerId, new AtomicInteger());
+				userVote = userVotes.get(bannerId);
+			}
+			userVote.set(voteValue);
+		}
+
+		return banner.updateRankBy(voteValue);
+	}
+
+	public Integer getUserVote(Banner banner, User user)
+	{
+		final String userEmail = user.getEmail();
+		final Long bannerId    = banner.getId ();
+
+		assert userEmail != null;
+		assert bannerId  != null;
+
+		final ConcurrentMap<Long, AtomicInteger> userVotes = votes.get(userEmail);
+		if (userVotes != null)
+		{
+			final AtomicInteger userVote = userVotes.get(bannerId);
+			if (userVote != null)
+				return userVote.get();
+		}
+		return null;
+	}
 
 // Testing/debugging stuff ---------------------------------------------------------------------------------------------
 
@@ -286,4 +333,8 @@ public abstract class BannerManagerImpl
 				return "order by " + var + ".rank desc, " + var + ".creationDate desc, " + var + ".user.email";
 		}
 	}
+
+	// Mapping: Map<UserEmail, Map<BannerId, UserVoteValue>>
+	// Currently we keep that only in memory.
+	private final ConcurrentMap<String, ConcurrentMap<Long, AtomicInteger>> votes = new ConcurrentHashMap<String, ConcurrentMap<Long, AtomicInteger>>();
 }

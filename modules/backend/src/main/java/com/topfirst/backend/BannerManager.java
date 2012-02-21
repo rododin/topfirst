@@ -49,7 +49,7 @@ public interface BannerManager
 
 	public Collection<? extends Banner> getBannersOfUser(User user, BannerSortMode sortMode, int howManyFirstEntities)
 		throws PersistenceException;
-	
+
 	/**
 	 * Creates a default <code>{@link Banner}</code> instance and links that to the given <code>{@link User user}</code>.
 	 * Please note, the created banner is not inserted into the underlying persistence storage automatically,
@@ -94,6 +94,28 @@ public interface BannerManager
 	 * @throws PersistenceException if the system cannot access the persistence storage or another problem occurs
 	 */
 	public void removeBanner(Banner banner) throws BannerException, PersistenceException;
+
+	/**
+	 * Adds the given <code>voteValue</code> to the banner <code>{@link Banner#getRank() rank}</code> if the user
+	 * has not still voted for the banner, otherwise it does nothing.
+	 * But anyway it returns the actual banner <code>{@link Banner#getRank() rank}</code>.
+	 * @param banner the banner user votes for
+	 * @param user the voting user
+	 * @param voteValue the vote value (e.g. a value in the range of 1 and 5 incl.)
+	 * @return the value of the actual banner <code>{@link Banner#getRank() rank}</code>
+	 * @see #getUserVote(Banner, User)
+	 */
+	public long addUserVote(Banner banner, User user, int voteValue);
+
+	/**
+	 * Returns the <code>user</code>'s vote for the given <code>banner</code>,
+	 * or <code>null</code> if the <code>user</code> has not voted for the <code>banner</code>.
+	 * @param banner the banner to be checked
+	 * @param user the user to be chacked
+	 * @return <code>null</code> or non-<code>null</code> integer value
+	 * @see #addUserVote(Banner, User, int)
+	 */
+	public Integer getUserVote(Banner banner, User user);
 
 // Testing/debugging stuff ---------------------------------------------------------------------------------------------
 
