@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import com.topfirst.backend.BackEnd;
 import com.topfirst.backend.BannerManager;
 import com.topfirst.backend.entities.Banner;
+import com.topfirst.backend.entities.User;
 import com.topfirst.backend.exceptions.PersistenceException;
 
 /**
@@ -36,6 +37,7 @@ public class BannerController
 	public static final long LAST_YEAR_PERIOD  = 365 * LAST_DAY_PERIOD;
 
 	public static final int TOP_ALL_BANNERS_COUNT   = 1000;
+	public static final int TOP_USERS_BANNERS_COUNT = 1000;
 	public static final int TOP_DAY_BANNERS_COUNT   =   10;
 	public static final int TOP_WEEK_BANNERS_COUNT  =   50;
 	public static final int TOP_MONTH_BANNERS_COUNT =  100;
@@ -99,6 +101,25 @@ public class BannerController
 		return doGetTopPeriodBanners(startTime, endTime, TOP_YEAR_BANNERS_COUNT);
 	}
 
+	public List<Banner> getUsersBanner()
+	{
+		final List<Banner> banners = new LinkedList<>();
+		try
+		{
+
+			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
+			User user=selectedBanner.get().getUser();
+//			LOG.info("selectedBanner.user.id="+user.getId());
+
+			banners.addAll(bannerManager.getBannersOfUser(user, BannerManager.BannerSortMode.ByRank, TOP_USERS_BANNERS_COUNT));
+		}
+		catch (PersistenceException x)
+		{
+			LOG.error("Unable to get users banners", x);
+		}
+		return banners;
+	}
+
 	public Banner getSelectedBanner()
 	{
 		//LOG.info("Banner get: selectedBanner=" + selectedBanner.get().getTitle());
@@ -127,6 +148,7 @@ public class BannerController
 		}
 		return banners;
 	}
+
 
 // Attributes ----------------------------------------------------------------------------------------------------------
 
