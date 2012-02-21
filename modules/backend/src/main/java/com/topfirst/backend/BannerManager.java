@@ -47,6 +47,9 @@ public interface BannerManager
 	public Collection<? extends Banner> getBannersForPeriod(BannerSortMode sortMode, Date startTime, Date endTime, int howManyFirstEntities)
 		throws PersistenceException;
 
+	public Collection<? extends Banner> getBannersOfUser(User user, BannerSortMode sortMode, int howManyFirstEntities)
+		throws PersistenceException;
+	
 	/**
 	 * Creates a default <code>{@link Banner}</code> instance and links that to the given <code>{@link User user}</code>.
 	 * Please note, the created banner is not inserted into the underlying persistence storage automatically,

@@ -48,6 +48,25 @@
 				</h:panelGrid>
 			</p:panel>
 
+			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_users_banners} #{bannerController.selectedBanner.user.firstName}</h2>
+			<p:dataGrid var="banner" value="#{bannerController.usersBanner}"
+					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<p:column>
+					<h:panelGrid columns="1" style="width:100%">
+						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
+							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
+							<p:graphicImage value="#{banner.imagePath}"/>
+						</p:commandLink>
+						<h:outputText value="#{banner.title}" />
+						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
+							<!--<p:graphicImage value="/resources/img/search.png"/>-->
+							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
+						<!--</p:commandLink>-->
+					</h:panelGrid>
+				</p:column>
+			</p:dataGrid>
+
 
 		</ui:define>
 

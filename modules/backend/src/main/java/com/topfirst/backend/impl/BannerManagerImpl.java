@@ -125,6 +125,45 @@ public abstract class BannerManagerImpl
 		}
 	}
 
+	public Collection<? extends Banner> getBannersOfUser(User user, BannerSortMode sortMode, int howManyFirstEntities) throws PersistenceException
+	{
+		EntityTransaction transaction = null;
+		try
+		{
+			if (sortMode == null)
+				throw new NullPointerException("sortMode is null");
+			if (user == null)
+				throw new NullPointerException("user is null");
+
+			final EntityManager entityManager = getEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b where (b.user = "+user.getId()+") " + getOrderByExpressionFor(sortMode, "b"), BannerImpl.class);
+			if (howManyFirstEntities > 0)
+				query.setMaxResults(howManyFirstEntities);
+			final List<BannerImpl> banners = query.getResultList();
+			transaction.commit();
+
+			if (banners != null)
+			{
+				for (BannerImpl banner : banners)
+				{
+					banner.setNew(false);
+					banner.setModified(false);
+				}
+			}
+			return banners;
+		}
+		catch (Exception x)
+		{
+			if (transaction != null)
+				transaction.rollback();
+			final String msg = "Unable to get Banners: sortMode=" + sortMode + ", howManyFirstEntities=" + howManyFirstEntities;
+			LOG.error(msg, x);
+			throw new PersistenceException(msg, x);
+		}
+	}
+
 	public BannerImpl createDefaultBannerForUser(User user) throws UserException
 	{
 		if (user.getId() == null)
