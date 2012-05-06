@@ -26,15 +26,17 @@
 					rowsPerPageTemplate="4,8,16,20,24,28,32">
 				<p:column>
 					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{banner.title}" />
 						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
 							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
 						</p:commandLink>
-						<h:outputText value="#{banner.title}" />
-						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
-							<!--<p:graphicImage value="/resources/img/search.png"/>-->
-							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
-						<!--</p:commandLink>-->
+						<h:panelGrid columns="4" style="width:100%" cellpadding="5">
+							<h:outputText value="#{PageText.label_votes}:"/>
+							<h:outputText value="#{banner.rank}"/>
+							<h:outputText value="#{PageText.label_vote}:"/>
+							<p:rating value="#{ratingController.rating2}" stars="5"/>
+						</h:panelGrid>
 					</h:panelGrid>
 				</p:column>
 			</p:dataGrid>
@@ -47,11 +49,11 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 				<p:column>
 					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{banner.title}" />
 						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
 							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
 						</p:commandLink>
-						<h:outputText value="#{banner.title}" />
 						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
 							<!--<p:graphicImage value="/resources/img/search.png"/>-->
 							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
@@ -68,11 +70,11 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 				<p:column>
 					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{banner.title}" />
 						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
 							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
 						</p:commandLink>
-						<h:outputText value="#{banner.title}" />
 						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
 							<!--<p:graphicImage value="/resources/img/search.png"/>-->
 							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
@@ -90,11 +92,11 @@
 					>
 				<p:column>
 					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{banner.title}" />
 						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
 							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
 						</p:commandLink>
-						<h:outputText value="#{banner.title}" />
 						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
 							<!--<p:graphicImage value="/resources/img/search.png"/>-->
 							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->
@@ -112,11 +114,11 @@
 					>
 				<p:column>
 					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{banner.title}" />
 						<p:commandLink title="#{PageText.text_details_on} #{banner.title}" action="detailsPage?faces-redirect=true">
 							<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />
 							<p:graphicImage value="#{banner.imagePath}"/>
 						</p:commandLink>
-						<h:outputText value="#{banner.title}" />
 						<!--<p:commandLink update=":form:bannerDetail" oncomplete="bannerDialog.show()" title="#{PageText.text_more_details}">-->
 							<!--<p:graphicImage value="/resources/img/search.png"/>-->
 							<!--<f:setPropertyActionListener value="#{banner}" target="#{bannerController.selectedBanner}" />-->

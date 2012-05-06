@@ -4,6 +4,7 @@
 
 package com.topfirst.web.page_controllers;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.topfirst.backend.BannerManager;
 import com.topfirst.backend.entities.Banner;
 import com.topfirst.backend.entities.User;
 import com.topfirst.backend.exceptions.PersistenceException;
+import com.topfirst.web.entity_wrappers.BannerExt;
 
 /**
  * Description.
@@ -38,11 +40,11 @@ public class BannerController
 
 	public static final int TOP_ALL_BANNERS_COUNT   = 1000;
 	public static final int TOP_USERS_BANNERS_COUNT = 1000;
-	public static final int TOP_DAY_BANNERS_COUNT   =   10;
-	public static final int TOP_WEEK_BANNERS_COUNT  =   50;
-	public static final int TOP_MONTH_BANNERS_COUNT =  100;
+	public static final int TOP_DAY_BANNERS_COUNT   =   25;
+	public static final int TOP_WEEK_BANNERS_COUNT  =  100;
+	public static final int TOP_MONTH_BANNERS_COUNT =  250;
 	public static final int TOP_YEAR_BANNERS_COUNT  =  500;
-	public static final int LAST_DAY_BANNERS_COUNT  =    0; // 0 means there is no limit
+	public static final int ALL_TODAY_BANNERS_COUNT =    0; // 0 means there is no limit
 
 // Constructors --------------------------------------------------------------------------------------------------------
 
@@ -53,9 +55,9 @@ public class BannerController
 
 // Getters/Setters -----------------------------------------------------------------------------------------------------
 
-	public List<Banner> getTopBanners()
+	public List<BannerExt> getTopBanners()
 	{
-		final List<Banner> banners = new LinkedList<>();
+		final List<BannerExt> rv = new LinkedList<>();
 		try
 		{
 			//final UserManager userManager = BackEnd.getDefaultBackend().getUserManager();
@@ -64,46 +66,65 @@ public class BannerController
 			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
 			//bannerManager.checkAndPopulateTestBanners(testUsers);
 
-			banners.addAll(bannerManager.getAllBanners(BannerManager.BannerSortMode.ByRank, TOP_ALL_BANNERS_COUNT));
+			final Collection<? extends Banner> allBanners = bannerManager.getAllBanners(BannerManager.BannerSortMode.ByRank, TOP_ALL_BANNERS_COUNT);
+			for (Banner banner : allBanners)
+				rv.add(new BannerExt(bannerManager, banner));
 		}
 		catch (PersistenceException x)
 		{
-			LOG.error("Unable to get banners", x);
+			LOG.error("Unable to get Top Banners", x);
 		}
-		return banners;
+		return rv;
 	}
 
-	public List<Banner> getTopDayBanners()
+	public List<BannerExt> getAllTodayBanners()
+	{
+		final List<BannerExt> rv = new LinkedList<>();
+		try
+		{
+			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
+			final Collection<? extends Banner> allBanners = bannerManager.getAllBanners(BannerManager.BannerSortMode.ByDate, ALL_TODAY_BANNERS_COUNT);
+			for (Banner banner : allBanners)
+				rv.add(new BannerExt(bannerManager, banner));
+		}
+		catch (PersistenceException x)
+		{
+			LOG.error("Unable to get Today Banners", x);
+		}
+		return rv;
+	}
+
+	public List<BannerExt> getTopDayBanners()
 	{
 		final Date endTime = new Date();
 		final Date startTime = new Date(endTime.getTime() - LAST_DAY_PERIOD);
 		return doGetTopPeriodBanners(startTime, endTime, TOP_DAY_BANNERS_COUNT);
 	}
 
-	public List<Banner> getTopWeekBanners()
+	public List<BannerExt> getTopWeekBanners()
 	{
 		final Date endTime = new Date();
 		final Date startTime = new Date(endTime.getTime() - LAST_WEEK_PERIOD);
 		return doGetTopPeriodBanners(startTime, endTime, TOP_WEEK_BANNERS_COUNT);
 	}
 
-	public List<Banner> getTopMonthBanners()
+	public List<BannerExt> getTopMonthBanners()
 	{
 		final Date endTime = new Date();
 		final Date startTime = new Date(endTime.getTime() - LAST_MONTH_PERIOD);
 		return doGetTopPeriodBanners(startTime, endTime, TOP_MONTH_BANNERS_COUNT);
 	}
 
-	public List<Banner> getTopYearBanners()
+	public List<BannerExt> getTopYearBanners()
 	{
 		final Date endTime = new Date();
 		final Date startTime = new Date(endTime.getTime() - LAST_YEAR_PERIOD);
 		return doGetTopPeriodBanners(startTime, endTime, TOP_YEAR_BANNERS_COUNT);
 	}
 
-	public List<Banner> getUsersBanner()
+	public List<BannerExt> getUserBanners()
 	{
-		final List<Banner> banners = new LinkedList<>();
+		final List<BannerExt> rv = new LinkedList<>();
 		try
 		{
 
@@ -111,22 +132,24 @@ public class BannerController
 			User user=selectedBanner.get().getUser();
 //			LOG.info("selectedBanner.user.id="+user.getId());
 
-			banners.addAll(bannerManager.getBannersOfUser(user, BannerManager.BannerSortMode.ByRank, TOP_USERS_BANNERS_COUNT));
-		}
+			final Collection<? extends Banner> banners = bannerManager.getBannersOfUser(user, BannerManager.BannerSortMode.ByRank, TOP_USERS_BANNERS_COUNT);
+			for (Banner banner : banners)
+				rv.add(new BannerExt(bannerManager, banner));
+			}
 		catch (PersistenceException x)
 		{
-			LOG.error("Unable to get users banners", x);
+			LOG.error("Unable to get User Banners", x);
 		}
-		return banners;
+		return rv;
 	}
 
-	public Banner getSelectedBanner()
+	public BannerExt getSelectedBanner()
 	{
 		//LOG.info("Banner get: selectedBanner=" + selectedBanner.get().getTitle());
 		return selectedBanner.get();
 	}
 
-	public void setSelectedBanner(Banner selectedBanner)
+	public void setSelectedBanner(BannerExt selectedBanner)
 	{
 		//LOG.info("Banner set: selectedBanner=" + (selectedBanner != null ? (selectedBanner.getTitle()) : null));
 		this.selectedBanner.set(selectedBanner);
@@ -134,24 +157,26 @@ public class BannerController
 
 // Internal Logic ------------------------------------------------------------------------------------------------------
 
-	public List<Banner> doGetTopPeriodBanners(Date startTime, Date endTime, int howMany)
+	public List<BannerExt> doGetTopPeriodBanners(Date startTime, Date endTime, int howMany)
 	{
-		final List<Banner> banners = new LinkedList<>();
+		final List<BannerExt> rv = new LinkedList<>();
 		try
 		{
 			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
-			banners.addAll(bannerManager.getBannersForPeriod(BannerManager.BannerSortMode.ByRank, startTime, endTime, howMany));
+			final Collection<? extends Banner> banners = bannerManager.getBannersForPeriod(BannerManager.BannerSortMode.ByRank, startTime, endTime, howMany);
+			for (Banner banner : banners)
+				rv.add(new BannerExt(bannerManager, banner));
 		}
 		catch (PersistenceException x)
 		{
 			LOG.error("Unable to get Top Period Banners", x);
 		}
-		return banners;
+		return rv;
 	}
 
 
 // Attributes ----------------------------------------------------------------------------------------------------------
 
 	//private final List<Banner> banners = new LinkedList<>();
-	private final AtomicReference<Banner> selectedBanner = new AtomicReference<>();
+	private final AtomicReference<BannerExt> selectedBanner = new AtomicReference<>();
 }

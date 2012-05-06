@@ -7,6 +7,7 @@ package com.topfirst.backend.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -141,7 +142,7 @@ public abstract class BannerManagerImpl
 			final EntityManager entityManager = getEntityManager();
 			transaction = entityManager.getTransaction();
 			transaction.begin();
-			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b where (b.user = "+user.getId()+") " + getOrderByExpressionFor(sortMode, "b"), BannerImpl.class);
+			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b where (b.user = " + user.getId() + ") " + getOrderByExpressionFor(sortMode, "b"), BannerImpl.class);
 			if (howManyFirstEntities > 0)
 				query.setMaxResults(howManyFirstEntities);
 			final List<BannerImpl> banners = query.getResultList();
@@ -162,6 +163,36 @@ public abstract class BannerManagerImpl
 			if (transaction != null)
 				transaction.rollback();
 			final String msg = "Unable to get Banners: sortMode=" + sortMode + ", howManyFirstEntities=" + howManyFirstEntities;
+			LOG.error(msg, x);
+			throw new PersistenceException(msg, x);
+		}
+	}
+
+	public Banner getBannerById(Long bannerId) throws PersistenceException
+	{
+		EntityTransaction transaction = null;
+		try
+		{
+			final EntityManager entityManager = getEntityManager();
+			transaction = entityManager.getTransaction();
+			transaction.begin();
+			final TypedQuery<BannerImpl> query = entityManager.createQuery("select b from BannerImpl as b where (b.id = " + bannerId + ")", BannerImpl.class);
+			query.setMaxResults(1);
+			final BannerImpl banner = query.getSingleResult();
+			transaction.commit();
+
+			if (banner != null)
+			{
+				banner.setNew(false);
+				banner.setModified(false);
+			}
+			return banner;
+		}
+		catch (Exception x)
+		{
+			if (transaction != null)
+				transaction.rollback();
+			final String msg = "Unable to get Banner: bannerId=" + bannerId;
 			LOG.error(msg, x);
 			throw new PersistenceException(msg, x);
 		}
@@ -281,6 +312,22 @@ public abstract class BannerManagerImpl
 			final AtomicInteger userVote = userVotes.get(bannerId);
 			if (userVote != null)
 				return userVote.get();
+		}
+		return null;
+	}
+
+	public Map<Long, Integer> getUserVotes(User user)
+	{
+		final String userEmail = user.getEmail();
+		assert userEmail != null;
+
+		final ConcurrentMap<Long, AtomicInteger> userVotes = votes.get(userEmail);
+		if (userVotes != null)
+		{
+			final HashMap<Long, Integer> rv = new HashMap<>();
+			for (Map.Entry<Long, AtomicInteger> userVote : userVotes.entrySet())
+				rv.put(userVote.getKey(), userVote.getValue().get());
+			return rv;
 		}
 		return null;
 	}

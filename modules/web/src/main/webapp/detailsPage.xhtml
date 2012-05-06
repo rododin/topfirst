@@ -49,7 +49,7 @@
 			</p:panel>
 
 			<h2 class="title ui-widget-header ui-corner-top" style="height: 25px; vertical-align: middle;">#{PageText.title_users_banners} #{bannerController.selectedBanner.user.firstName}</h2>
-			<p:dataGrid var="banner" value="#{bannerController.usersBanner}"
+			<p:dataGrid var="banner" value="#{bannerController.userBanners}"
 					columns="4" rows="4" paginator="true" paginatorPosition="bottom" effect="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
 				<p:column>

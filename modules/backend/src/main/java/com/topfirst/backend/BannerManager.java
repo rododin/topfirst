@@ -50,6 +50,9 @@ public interface BannerManager
 	public Collection<? extends Banner> getBannersOfUser(User user, BannerSortMode sortMode, int howManyFirstEntities)
 		throws PersistenceException;
 
+	public Banner getBannerById(Long bannerId)
+		throws PersistenceException;
+
 	/**
 	 * Creates a default <code>{@link Banner}</code> instance and links that to the given <code>{@link User user}</code>.
 	 * Please note, the created banner is not inserted into the underlying persistence storage automatically,
@@ -116,6 +119,8 @@ public interface BannerManager
 	 * @see #addUserVote(Banner, User, int)
 	 */
 	public Integer getUserVote(Banner banner, User user);
+
+	public Map<Long, Integer> getUserVotes(User user);
 
 // Testing/debugging stuff ---------------------------------------------------------------------------------------------
 
