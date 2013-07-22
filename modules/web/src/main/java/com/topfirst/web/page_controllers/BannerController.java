@@ -68,7 +68,7 @@ public class BannerController
 
 			final Collection<? extends Banner> allBanners = bannerManager.getAllBanners(BannerManager.BannerSortMode.ByRank, TOP_ALL_BANNERS_COUNT);
 			for (Banner banner : allBanners)
-				rv.add(new BannerExt(bannerManager, banner));
+				rv.add(new BannerExt(bannerManager, banner.getUser(), banner.getId()));
 		}
 		catch (PersistenceException x)
 		{
@@ -85,7 +85,7 @@ public class BannerController
 			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
 			final Collection<? extends Banner> allBanners = bannerManager.getAllBanners(BannerManager.BannerSortMode.ByDate, ALL_TODAY_BANNERS_COUNT);
 			for (Banner banner : allBanners)
-				rv.add(new BannerExt(bannerManager, banner));
+				rv.add(new BannerExt(bannerManager, banner.getUser(), banner.getId()));
 		}
 		catch (PersistenceException x)
 		{
@@ -134,8 +134,8 @@ public class BannerController
 
 			final Collection<? extends Banner> banners = bannerManager.getBannersOfUser(user, BannerManager.BannerSortMode.ByRank, TOP_USERS_BANNERS_COUNT);
 			for (Banner banner : banners)
-				rv.add(new BannerExt(bannerManager, banner));
-			}
+				rv.add(new BannerExt(bannerManager, banner.getUser(), banner.getId()));
+		}
 		catch (PersistenceException x)
 		{
 			LOG.error("Unable to get User Banners", x);
@@ -165,7 +165,7 @@ public class BannerController
 			final BannerManager bannerManager = BackEnd.getDefaultBackend().getBannerManager();
 			final Collection<? extends Banner> banners = bannerManager.getBannersForPeriod(BannerManager.BannerSortMode.ByRank, startTime, endTime, howMany);
 			for (Banner banner : banners)
-				rv.add(new BannerExt(bannerManager, banner));
+				rv.add(new BannerExt(bannerManager, banner.getUser(), banner.getId()));
 		}
 		catch (PersistenceException x)
 		{
